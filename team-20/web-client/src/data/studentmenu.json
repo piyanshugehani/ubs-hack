@@ -21,11 +21,18 @@
                 "link": "/student/videos"
             },
             {
+                "text": "Live Classes",
+                "icon": "bx bx-broadcast",
+                "available": true,
+                "link": "/student/classes"
+            },
+            {
                 "text": "Help",
                 "icon": "bx bx-help-circle",
                 "available": true,
                 "link": "/student/help"
             }
+
         ]
     }
 ]

@@ -1,7 +1,9 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import StudentProgress from "./StudentProgress";
 
 function StudentDashboard() {
+  const navigate = useNavigate();
   const [selectedSession, setSelectedSession] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [modalType, setModalType] = useState("");

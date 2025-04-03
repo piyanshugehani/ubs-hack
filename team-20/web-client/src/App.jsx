@@ -16,9 +16,12 @@ import LiveSession from "./pages/LiveSession";
 import Notes from "./pages/Notes";
 import Feedback from "./pages/Feedback";
 import StudentDashboard from "./pages/StudentDashboard";
+import StudentVideos from "./pages/StudentVideos";
 import SyllabusUpload from "./pages/upload/Upload";
 import SchoolDashboard from "./pages/SchoolDashboard";
 import Vol from "./pages/SchoolRecommendations/SchoolRecommendations";
+import Onboarding from "./pages/Onboarding";
+import Matching from "./pages/Matching";
 
 function AppWrapper() {
   const location = useLocation();
@@ -29,6 +32,7 @@ function AppWrapper() {
     <>
       {isSchoolPath ? (
         <SchoolLayout>
+
           <Routes>
             <Route path="/school" element={<SchoolDashboard />} />
             <Route path="/school/upload" element={<SyllabusUpload />} />
@@ -48,16 +52,19 @@ function AppWrapper() {
             <Route path="/student/live" element={<LiveSession />} />
             <Route path="/student/notes" element={<Notes />} />
             <Route path="/student/feedback" element={<Feedback />} />
+            <Route path="/student/videos" element={<StudentVideos />} />
           </Routes>
         </StudentLayout>
       ) : (
         <VolunteerLayout>
           <Routes>
+            <Route path="/Onboarding" element={<Onboarding />} />
             <Route path="/" element={<Dashboard />} />
             <Route path="/sessions" element={<Sessions />} />
             <Route path="/sessions/:id" element={<SessionDetails />} />
             <Route path="/progress" element={<Progress />} />
             <Route path="/settings" element={<Settings />} />
+            <Route path="/matching" element={<Matching />} />
           </Routes>
         </VolunteerLayout>
       )}

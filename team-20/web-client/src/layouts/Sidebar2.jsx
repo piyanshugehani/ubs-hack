@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
 import menuData from '../data/studentmenu.json';
+import { DotLottieReact } from '@lottiefiles/dotlottie-react';
 
 const Sidebar2 = () => {
     return (
@@ -20,7 +21,12 @@ const Sidebar2 = () => {
             </div>
 
             <div className="sidebar-gif-container text-center p-2">
-                <img src="../public/assets/img/students.png" alt="Sidebar Animation" className="sidebar-gif" style={{ width: '80%', height: 'auto', borderRadius: '8px' }} />
+                {/* <img src="../public/assets/img/students.png" alt="Sidebar Animation" className="sidebar-gif" style={{ width: '80%', height: 'auto', borderRadius: '8px' }} /> */}
+                <DotLottieReact
+                src="https://lottie.host/e9a0b7ea-5116-4cc4-bd5a-de215771b7ff/QmGZye8k25.lottie"
+                loop
+                autoplay
+                />
             </div>
 
             <div className="menu-inner-shadow"></div>

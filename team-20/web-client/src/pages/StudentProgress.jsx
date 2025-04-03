@@ -1,6 +1,8 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 const StudentProgress = () => {
+  const navigate = useNavigate();
   return (
     <div className="row">
       <div className="col-md-6 col-lg-8 col-xl-8 order-0 mb-4">
@@ -102,7 +104,7 @@ const StudentProgress = () => {
             </div>
           </div>
           <span className="fw-medium d-block mb-1">Download Notes</span>
-          <button className="btn btn-primary">
+          <button className="btn btn-primary" onClick={() => navigate('/student/notes')}>
             <i className="bx bx-download me-2"></i> Download
           </button>
         </div>
@@ -140,7 +142,7 @@ const StudentProgress = () => {
             </div>
           </div>
           <span className="fw-medium d-block mb-1">View Video Lectures</span>
-          <button className="btn btn-success">
+          <button className="btn btn-success" onClick={() => navigate('/student/video')}>
             <i className="bx bx-play-circle me-2"></i> Watch Now
           </button>
         </div>
