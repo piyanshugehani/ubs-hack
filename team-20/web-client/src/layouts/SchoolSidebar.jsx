@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
 import menuData from '../data/menuData.json'
+import { DotLottieReact } from '@lottiefiles/dotlottie-react';
+import React from 'react';
 
 const StudentSidebar = () => {
 
@@ -14,14 +15,18 @@ const StudentSidebar = () => {
                     </span>
                     <span className="app-brand-text demo menu-text fw-bold ms-2">Sneat</span>
                 </Link>
-
                 <a href="#" className="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none">
                     <i className="bx bx-chevron-left bx-sm align-middle"></i>
                 </a>
             </div>
-
+                <Link aria-label='Navigate to volunteer dashboard homepage' to="/" >
+        <DotLottieReact
+      src="https://lottie.host/e9a0b7ea-5116-4cc4-bd5a-de215771b7ff/QmGZye8k25.lottie"
+      loop
+      autoplay
+    />
+        </Link>
             <div className="menu-inner-shadow"></div>
-
             <ul className="menu-inner py-1">
                 {menuData.map((section) => (
                     <React.Fragment key={section.header}>

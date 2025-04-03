@@ -8,17 +8,16 @@ import SessionDetails from "./pages/SessionDetails";
 import Progress from "./pages/Progress";
 import Settings from "./pages/Settings";
 // import LMSIntegration from "./pages/LMSIntegration";
-import ManageSessions from "./pages/ManageSessions";
-import Analytics from "./pages/Analytics";
 import StudentClasses from "./pages/StudentClasses";
 import LiveSession from "./pages/LiveSession";
 import Notes from "./pages/Notes";
 import Feedback from "./pages/Feedback";
 import StudentDashboard from "./pages/StudentDashboard";
 import SyllabusUpload from "./pages/upload/Upload";
-import SchoolDashboard from "./pages/SchoolDashboard";
 import Vol from "./pages/SchoolRecommendations/SchoolRecommendations";
 import { GoogleTranslate } from "./GoogleTranslate";
+import VolunteerDashboard from "./pages/SchoolDashboard";
+import SyllabusTable from "./pages/Syllabus";
 
 function AppWrapper() {
   const location = useLocation();
@@ -31,12 +30,10 @@ function AppWrapper() {
       {isSchoolPath ? (
         <SchoolLayout>
           <Routes>
-            <Route path="/school" element={<SchoolDashboard />} />
+            <Route path="/school" element={<VolunteerDashboard />} />
             <Route path="/school/upload" element={<SyllabusUpload />} />
             <Route path="/school/volunteers" element={<Vol />} />
-            <Route path="/school/sessions" element={<ManageSessions />} />
-            <Route path="/school/sessions/:id" element={<SessionDetails />} />
-            <Route path="/school/analytics" element={<Analytics />} />
+            <Route path="/school/syllabus" element={<SyllabusTable />} />
             <Route path="/school/settings" element={<Settings />} />
           </Routes>
         </SchoolLayout>

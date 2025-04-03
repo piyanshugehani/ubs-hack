@@ -1,3 +1,5 @@
+/* eslint-disable react/no-unescaped-entities */
+/* eslint-disable no-undef */
 import { useEffect } from "react";
 import LineChart from "../components/LineChart";
 
@@ -5,7 +7,6 @@ export default function Dashboard() {
     useEffect(() => {
         dashboardAnalitics();
     }, []);
-
     // Generate sample contribution data for the heatmap
     const generateContributionData = () => {
         const data = [];
@@ -18,14 +19,10 @@ export default function Dashboard() {
         }
         return data;
     };
-
     const contributionData = generateContributionData();
-
     return (
         <div className="container-fluid p-4">
-            {/* First Row: Welcome Section and Heatmap */}
             <div className="row g-4">
-                {/* Welcome Card */}
                 <div className="col-lg-8">
                     <div className="card h-100">
                         <div className="d-flex align-items-end row g-0">
@@ -87,7 +84,6 @@ export default function Dashboard() {
                     </div>
                 </div>
             </div>
-
             {/* Second Row: Upcoming Sessions + Stats Cards */}
             <div className="row g-4 mt-4">
                 {/* Upcoming Sessions */}
