@@ -178,13 +178,13 @@ export default function Dashboard() {
             {/* Third Row: Bottom section (unchanged) */}
             <div className="row g-4 mt-4">
                 {/* Student Progress */}
-                <div className="col-md-4">
+                <div className="col-md-8">
                     <div className="card h-100">
                         <LineChart />
                     </div>
                 </div>
 
-                {/* Quick Actions */}
+                {/* Quick Actions
                 <div className="col-md-4">
                     <div className="card h-100">
                         <div className="card-header p-3">
@@ -199,7 +199,7 @@ export default function Dashboard() {
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> */}
 
                 {/* Recent Activities */}
                 <div className="col-md-4">
