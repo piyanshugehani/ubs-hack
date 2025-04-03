@@ -1,0 +1,31 @@
+[
+    {
+        "header": "",
+        "items": [
+            {
+                "text": "Dashboard",
+                "icon": "bx bx-home",
+                "available": true,
+                "link": "/student"
+            },
+            {
+                "text": "Notes",
+                "icon": "bx bx-book",
+                "available": true,
+                "link": "/student/notes"
+            },
+            {
+                "text": "Videos",
+                "icon": "bx bx-video",
+                "available": true,
+                "link": "/student/videos"
+            },
+            {
+                "text": "Help",
+                "icon": "bx bx-help-circle",
+                "available": true,
+                "link": "/student/help"
+            }
+        ]
+    }
+]
