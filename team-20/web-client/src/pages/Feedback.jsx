@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { redirect, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const Feedback = () => {
   const [rating, setRating] = useState(null);
@@ -15,6 +16,32 @@ const Feedback = () => {
     if (rating !== null && feedback.trim() !== "") {
       setSubmitted(true);
     }
+
+      const feedbackData = {
+        rating,
+        feedback,
+      };
+
+      // Send feedback to the server
+      try{
+      axios
+        .post("http://localhost:5000/student/feedback", feedbackData)
+        .then((response) => {
+          console.log("Feedback submitted successfully:", response.data);
+          setSubmitted(true);
+        })
+        .catch((error) => {
+          console.error("Error submitting feedback:", error);
+        });
+    }catch (error) {
+      console.error("Error submitting feedback:", error);
+    }
+    finally {
+      setSubmitted(true);
+      navigate("/student/quiz");
+    }
+
+
   };
 
   return (
