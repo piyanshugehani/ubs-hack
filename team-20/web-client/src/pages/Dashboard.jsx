@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import LineChart from "../components/lineChart";
+import LineChart from "../components/LineChart";
 
 export default function Dashboard() {
     useEffect(() => {

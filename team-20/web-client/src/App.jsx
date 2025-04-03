@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 import VolunteerLayout from "./layouts/VolunteerLayout";
 import SchoolLayout from "./layouts/SchoolLayout";
 import StudentLayout from "./layouts/StudentLayout";
@@ -8,7 +8,6 @@ import SessionDetails from "./pages/SessionDetails";
 import Progress from "./pages/Progress";
 import Settings from "./pages/Settings";
 // import LMSIntegration from "./pages/LMSIntegration";
-import ManageVolunteers from "./pages/ManageVolunteers";
 import ManageSessions from "./pages/ManageSessions";
 import Analytics from "./pages/Analytics";
 import StudentClasses from "./pages/StudentClasses";
@@ -19,6 +18,7 @@ import StudentDashboard from "./pages/StudentDashboard";
 import SyllabusUpload from "./pages/upload/Upload";
 import SchoolDashboard from "./pages/SchoolDashboard";
 import Vol from "./pages/SchoolRecommendations/SchoolRecommendations";
+import { GoogleTranslate } from "./GoogleTranslate";
 
 function AppWrapper() {
   const location = useLocation();
@@ -27,6 +27,7 @@ function AppWrapper() {
 
   return (
     <>
+      <GoogleTranslate />
       {isSchoolPath ? (
         <SchoolLayout>
           <Routes>
@@ -37,7 +38,6 @@ function AppWrapper() {
             <Route path="/school/sessions/:id" element={<SessionDetails />} />
             <Route path="/school/analytics" element={<Analytics />} />
             <Route path="/school/settings" element={<Settings />} />
-            
           </Routes>
         </SchoolLayout>
       ) : isStudentPath ? (
@@ -66,11 +66,7 @@ function AppWrapper() {
 }
 
 function App() {
-  return (
-    <>
-      <AppWrapper />
-    </>
-  );
+  return <AppWrapper />;
 }
 
 export default App;
