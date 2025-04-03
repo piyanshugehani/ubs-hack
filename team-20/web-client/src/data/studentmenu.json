@@ -6,25 +6,25 @@
                 "text": "Dashboard",
                 "icon": "bx bx-home",
                 "available": true,
-                "link": "/"
+                "link": "/student"
             },
             {
                 "text": "Notes",
                 "icon": "bx bx-book",
                 "available": true,
-                "link": "/notes"
+                "link": "/student/notes"
             },
             {
                 "text": "Videos",
                 "icon": "bx bx-video",
                 "available": true,
-                "link": "/videos"
+                "link": "/student/videos"
             },
             {
                 "text": "Help",
                 "icon": "bx bx-help-circle",
                 "available": true,
-                "link": "/help"
+                "link": "/student/help"
             }
         ]
     }

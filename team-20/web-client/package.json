@@ -11,9 +11,11 @@
   },
   "dependencies": {
     "@lottiefiles/dotlottie-react": "^0.13.3",
+    "@zegocloud/zego-uikit-prebuilt": "^2.14.3-beta",
     "apexcharts": "^4.5.0",
     "chart": "^0.1.2",
     "chart.js": "^4.4.8",
+    "date-fns": "^4.1.0",
     "linechart": "^2.0.0",
     "localforage": "^1.10.0",
     "lucide": "^0.487.0",
