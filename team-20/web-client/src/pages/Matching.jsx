@@ -13,34 +13,31 @@ const Matching = () => {
   const [filteredSlots, setFilteredSlots] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [languageFilter, setLanguageFilter] = useState('all');
-  const [sortDirection, setSortDirection] = useState('asc');
-  const [chapterFilter, setChapterFilter] = useState('all');
+  const [sortDirection, setSortDirection] = useState('desc'); // Default to highest score first
+  const [subjectFilter, setSubjectFilter] = useState('all');
   const [urgencyFilter, setUrgencyFilter] = useState('all');
   const [isLoading, setIsLoading] = useState(true);
-  const [chapters, setChapters] = useState({});
+  const [subjects, setSubjects] = useState({});
   const [topics, setTopics] = useState({});
   const [volunteers, setVolunteers] = useState({});
   
-  // Hardcoded data
-  const hardcodedChapters = {
-    1: { chapter_id: 1, name: "Algebra Basics", subject: "Mathematics" },
-    2: { chapter_id: 2, name: "Newton's Laws", subject: "Physics" },
-    3: { chapter_id: 3, name: "Cell Biology", subject: "Biology" },
-    4: { chapter_id: 4, name: "Chemical Bonding", subject: "Chemistry" },
-    5: { chapter_id: 5, name: "Linear Equations", subject: "Mathematics" }
+  // Hardcoded data based on the new schema
+  const hardcodedSubjects = {
+    1: { subject_id: 1, name: "Programming" },
+    2: { subject_id: 2, name: "Networking" },
+    3: { subject_id: 3, name: "AI & Machine Learning" },
+    4: { subject_id: 4, name: "Data Structures" }
   };
   
   const hardcodedTopics = {
-    1: { topic_id: 1, name: "Variables and Constants" },
-    2: { topic_id: 2, name: "Solving Equations" },
-    3: { topic_id: 3, name: "Force and Motion" },
-    4: { topic_id: 4, name: "Action and Reaction" },
-    5: { topic_id: 5, name: "Cell Membrane" },
-    6: { topic_id: 6, name: "Mitochondria" },
-    7: { topic_id: 7, name: "Covalent Bonds" },
-    8: { topic_id: 8, name: "Ionic Bonds" },
-    9: { topic_id: 9, name: "Slope-Intercept Form" },
-    10: { topic_id: 10, name: "Graphing Lines" }
+    1: { topic_id: 1, name: "Variables" },
+    2: { topic_id: 2, name: "Control Flow" },
+    3: { topic_id: 3, name: "Functions" },
+    4: { topic_id: 4, name: "Network Layers" },
+    5: { topic_id: 5, name: "Machine Learning Basics" },
+    6: { topic_id: 6, name: "Neural Networks" },
+    7: { topic_id: 7, name: "Graph Traversal" },
+    8: { topic_id: 8, name: "Tree Balancing" }
   };
   
   const hardcodedVolunteers = {
@@ -49,99 +46,114 @@ const Matching = () => {
     3: { volunteer_id: 3, name: "Alice Johnson" }
   };
   
-  // Generate random dates for the slots
-  const generateRandomDate = (daysOffset) => {
+  // Generate day of week based on the provided schema
+  const generateDate = (day) => {
+    const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    const today = new Date();
+    const dayIndex = daysOfWeek.indexOf(day);
+    const currentDayIndex = today.getDay();
+    let daysToAdd = dayIndex - currentDayIndex;
+    
+    // If the day has already passed this week, schedule it for next week
+    if (daysToAdd < 0) daysToAdd += 7;
+    
     const date = new Date();
-    date.setDate(date.getDate() + daysOffset);
+    date.setDate(date.getDate() + daysToAdd);
+    // Set a random hour between 9am and 6pm
+    date.setHours(9 + Math.floor(Math.random() * 9), 0, 0, 0);
     return date.toISOString();
   };
   
+  // New hardcoded slots based on the schema
   const hardcodedSlots = [
     {
       slot_id: 1,
-      chapter_id: 1,
-      topics_covered: [1, 2],
+      chapter_title: "Syntax & Variables",
+      subject_id: 1, // Programming
+      topics_covered: [1, 3],
       language: "English",
-      date: generateRandomDate(1),
+      date: generateDate("Tuesday"),
       duration: 45,
       assignedOrNot: "unassigned",
       volunteer_id: null,
-      is_urgent: true,
+      is_urgent: false,
+      matchScore: 43.5,
+      matchReason: "High skill match, Good performance history",
       notes: ""
     },
     {
       slot_id: 2,
-      chapter_id: 2,
-      topics_covered: [3, 4],
-      language: "Spanish",
-      date: generateRandomDate(-1),
-      duration: 30,
-      assignedOrNot: "assigned",
-      volunteer_id: 1,
-      is_urgent: false,
-      notes: "Student needs help with understanding the second law"
-    },
-    {
-      slot_id: 3,
-      chapter_id: 3,
-      topics_covered: [5, 6],
+      chapter_title: "Loops & Conditionals",
+      subject_id: 1, // Programming
+      topics_covered: [2],
       language: "English",
-      date: generateRandomDate(2),
+      date: generateDate("Saturday"),
       duration: 60,
       assignedOrNot: "unassigned",
       volunteer_id: null,
-      is_urgent: false,
+      is_urgent: true,
+      matchScore: 53.5,
+      matchReason: "High skill match, Good performance history, Urgent slot",
       notes: ""
     },
     {
-      slot_id: 4,
-      chapter_id: 4,
-      topics_covered: [7, 8],
-      language: "French",
-      date: generateRandomDate(0),
+      slot_id: 3,
+      chapter_title: "Introduction to AI",
+      subject_id: 3, // AI & Machine Learning
+      topics_covered: [5],
+      language: "English",
+      date: generateDate("Sunday"),
       duration: 45,
+      assignedOrNot: "assigned",
+      volunteer_id: 1,
+      is_urgent: false,
+      matchScore: 21.0,
+      matchReason: "Good performance history",
+      notes: "Student needs help with understanding basic ML concepts"
+    },
+    {
+      slot_id: 4,
+      chapter_title: "OSI Model",
+      subject_id: 2, // Networking
+      topics_covered: [4],
+      language: "English",
+      date: generateDate("Tuesday"),
+      duration: 30,
       assignedOrNot: "unassigned",
       volunteer_id: null,
       is_urgent: true,
+      matchScore: 31.0,
+      matchReason: "Good performance history, Urgent slot",
       notes: ""
     },
     {
       slot_id: 5,
-      chapter_id: 5,
-      topics_covered: [9, 10],
+      chapter_title: "Trees & Graphs",
+      subject_id: 4, // Data Structures
+      topics_covered: [7, 8],
       language: "English",
-      date: generateRandomDate(3),
-      duration: 30,
+      date: generateDate("Friday"),
+      duration: 45,
       assignedOrNot: "assigned",
       volunteer_id: 1,
       is_urgent: false,
-      notes: "Student struggles with graphing concepts"
-    },
-    {
-      slot_id: 6,
-      chapter_id: 1,
-      topics_covered: [1, 2],
-      language: "German",
-      date: generateRandomDate(1),
-      duration: 45,
-      assignedOrNot: "unassigned",
-      volunteer_id: null,
-      is_urgent: false,
-      notes: ""
+      matchScore: 21.0,
+      matchReason: "Good performance history",
+      notes: "Student struggles with graph traversal algorithms"
     }
   ];
 
   // Fetch data on component mount (now just setting hardcoded data)
   useEffect(() => {
     fetchRelevantSlots();
-    fetchChapters();
+    fetchSubjects();
     fetchTopics();
     fetchVolunteers();
   }, []);
 
-  // Set hardcoded chapters data
-  const fetchChapters = () => {
-    setChapters(hardcodedChapters);
+  // Set hardcoded subjects data
+  const fetchSubjects = () => {
+    setSubjects(hardcodedSubjects);
   };
 
   // Set hardcoded topics data
@@ -195,8 +207,8 @@ const Matching = () => {
   // Get unique languages for filter dropdown
   const uniqueLanguages = [...new Set(slots.map(slot => slot.language))];
   
-  // Get unique chapters for filter dropdown
-  const uniqueChapters = [...new Set(slots.map(slot => slot.chapter_id))];
+  // Get unique subjects for filter dropdown
+  const uniqueSubjects = [...new Set(slots.map(slot => slot.subject_id))];
 
   // Filter and sort slots based on active tab and filters
   const filterAndSortSlots = (slotsToFilter, assignmentStatus) => {
@@ -215,9 +227,9 @@ const Matching = () => {
       filtered = filtered.filter(slot => slot.language === languageFilter);
     }
     
-    // Apply chapter filter
-    if (chapterFilter !== 'all') {
-      filtered = filtered.filter(slot => slot.chapter_id === parseInt(chapterFilter));
+    // Apply subject filter
+    if (subjectFilter !== 'all') {
+      filtered = filtered.filter(slot => slot.subject_id === parseInt(subjectFilter));
     }
     
     // Apply urgency filter
@@ -227,31 +239,36 @@ const Matching = () => {
       );
     }
     
-    // Apply search query filter (search by chapter name or topics)
+    // Apply search query filter (search by chapter title or topics)
     if (searchQuery) {
       filtered = filtered.filter(slot => {
-        const chapterName = chapters[slot.chapter_id]?.name?.toLowerCase() || '';
+        const chapterTitle = slot.chapter_title.toLowerCase();
         const topicNames = slot.topics_covered
           .map(id => topics[id]?.name?.toLowerCase() || '')
           .join(' ');
         
-        return chapterName.includes(searchQuery.toLowerCase()) || 
+        return chapterTitle.includes(searchQuery.toLowerCase()) || 
                topicNames.includes(searchQuery.toLowerCase());
       });
     }
     
-    // Sort by date
+    // Sort by matchScore or date
     return filtered.sort((a, b) => {
-      const dateA = parseISO(a.date);
-      const dateB = parseISO(b.date);
-      return sortDirection === 'asc' ? dateA - dateB : dateB - dateA;
-    });
+        const dateA = new Date(a.date);
+        const dateB = new Date(b.date);
+      
+        if (sortDirection === 'asc') {
+          return dateA - dateB;
+        } else {
+          return dateB - dateA;
+        }
+      });
   };
 
   // Update filtered slots when filters or data changes
   useEffect(() => {
     setFilteredSlots(filterAndSortSlots(slots, activeTab));
-  }, [searchQuery, languageFilter, chapterFilter, urgencyFilter, sortDirection, slots, activeTab]);
+  }, [searchQuery, languageFilter, subjectFilter, urgencyFilter, sortDirection, slots, activeTab]);
   
   // Toggle sort direction
   const toggleSort = () => {
@@ -276,21 +293,16 @@ const Matching = () => {
     return volunteerId ? volunteers[volunteerId]?.name || `Volunteer ${volunteerId}` : "Unassigned";
   };
 
-  // Get chapter name from ID
-  const getChapterName = (chapterId) => {
-    return chapters[chapterId]?.name || `Chapter ${chapterId}`;
-  };
-
-  // Get subject from chapter ID
-  const getSubjectFromChapter = (chapterId) => {
-    return chapters[chapterId]?.subject || "Subject Unknown";
+  // Get subject name from ID
+  const getSubjectName = (subjectId) => {
+    return subjects[subjectId]?.name || `Subject ${subjectId}`;
   };
 
   return (
     <>
     <div className="w-full max-w-6xl mx-auto p-4 bg-gray-50 rounded-lg shadow-sm">
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold text-gray-800">Session Slot Management</h1>
+        <h1 className="text-2xl font-bold text-gray-800">Matching Dashboard</h1>
         <div className="text-sm text-gray-600 bg-blue-50 px-3 py-1 rounded-full">
           Logged in as: {getVolunteerName(currentTeacherId)}
         </div>
@@ -306,7 +318,7 @@ const Matching = () => {
               : 'text-gray-500 hover:text-gray-700'
           }`}
         >
-          Unassigned Slots
+          Available Matches
         </button>
         <button 
           onClick={() => setActiveTab('assigned')}
@@ -316,7 +328,7 @@ const Matching = () => {
               : 'text-gray-500 hover:text-gray-700'
           }`}
         >
-          My Assigned Slots
+          My Scheduled Sessions
         </button>
       </div>
       
@@ -345,12 +357,12 @@ const Matching = () => {
         
         <select 
           className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-          value={chapterFilter}
-          onChange={(e) => setChapterFilter(e.target.value)}
+          value={subjectFilter}
+          onChange={(e) => setSubjectFilter(e.target.value)}
         >
-          <option value="all">All Chapters</option>
-          {uniqueChapters.map(chapterId => (
-            <option key={chapterId} value={chapterId}>{getChapterName(chapterId)}</option>
+          <option value="all">All Subjects</option>
+          {uniqueSubjects.map(subjectId => (
+            <option key={subjectId} value={subjectId}>{getSubjectName(subjectId)}</option>
           ))}
         </select>
         
@@ -382,14 +394,14 @@ const Matching = () => {
         <div className="animate-fadeIn">
           <div className="mb-4">
             <h2 className="text-lg font-semibold text-gray-700 mb-2">
-              {activeTab === 'unassigned' ? 'Unassigned Slots' : 'My Assigned Slots'}
+              {activeTab === 'unassigned' ? 'Available Matching Opportunities' : 'My Scheduled Sessions'}
             </h2>
           </div>
           
           {filteredSlots.length === 0 ? (
             <div className="text-center py-10 bg-white rounded-lg border border-gray-200">
               <p className="text-gray-500">
-                No {activeTab === 'unassigned' ? 'unassigned' : 'assigned'} slots found with the current filters.
+                No {activeTab === 'unassigned' ? 'matching opportunities' : 'scheduled sessions'} found with the current filters.
               </p>
             </div>
           ) : (
@@ -406,10 +418,10 @@ const Matching = () => {
                   
                   <div className="flex justify-between">
                     <div>
-                      <h3 className="font-semibold text-gray-800">{getChapterName(slot.chapter_id)}</h3>
+                      <h3 className="font-semibold text-gray-800">{slot.chapter_title}</h3>
                       <div className="mt-1 text-sm text-gray-600 flex flex-wrap gap-2">
                         <span className="bg-blue-50 text-blue-700 px-2 py-0.5 rounded-full text-xs font-medium">
-                          {getSubjectFromChapter(slot.chapter_id)}
+                          {getSubjectName(slot.subject_id)}
                         </span>
                         <span className="bg-purple-50 text-purple-700 px-2 py-0.5 rounded-full text-xs font-medium">
                           {slot.language}
@@ -424,12 +436,12 @@ const Matching = () => {
                     }`}>
                       {slot.assignedOrNot === 'assigned' 
                         ? 'Assigned to me' 
-                        : 'Unassigned'}
+                        : 'Available'}
                     </span>
                   </div>
                   
                   <div className="mt-3">
-                    <h4 className="text-sm font-medium text-gray-700">Topics Covered:</h4>
+                    <h4 className="text-sm font-medium text-gray-700">Topics:</h4>
                     <div className="flex flex-wrap gap-1 mt-1">
                       {getTopicNames(slot.topics_covered).map((topic, index) => (
                         <span key={index} className="bg-gray-100 text-gray-700 px-2 py-0.5 rounded-full text-xs">
@@ -439,12 +451,19 @@ const Matching = () => {
                     </div>
                   </div>
                   
+                  <div className="mt-3">
+                    {/* <h4 className="text-sm font-medium text-gray-700">
+                      Match Quality: <span className="text-blue-600">{slot.matchScore.toFixed(1)}</span>
+                    </h4> */}
+                    <p className="text-xs text-gray-600 mt-1">{slot.matchReason}</p>
+                  </div>
+                  
                   <div className="mt-3 text-sm text-gray-600">
                     <div className="flex items-center mb-1">
                       <svg className="h-4 w-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                       </svg>
-                      {format(parseISO(slot.date), 'MMM d, yyyy • h:mm a')} ({slot.duration} mins)
+                      {format(parseISO(slot.date), 'EEE, MMM d • h:mm a')} ({slot.duration} mins)
                     </div>
                   </div>
                   
@@ -458,7 +477,7 @@ const Matching = () => {
                         className="px-3 py-1.5 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors text-sm font-medium"
                         onClick={() => handleAssignToSelf(slot.slot_id)}
                       >
-                        Assign to Me
+                        Accept Match
                       </button>
                     ) : (
                       <div className="flex gap-2">
@@ -466,7 +485,7 @@ const Matching = () => {
                           className="px-3 py-1.5 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors text-sm font-medium"
                           onClick={() => handleConductSession(slot)}
                         >
-                          Conduct Session
+                          Start Session
                         </button>
                         <button 
                           className="px-3 py-1.5 bg-gray-100 text-gray-600 rounded-md hover:bg-gray-200 transition-colors text-sm"
@@ -507,9 +526,9 @@ const Matching = () => {
         {/* Modal container with animation */}
         <div className="relative w-full max-w-6xl h-[100vh] bg-white rounded-lg shadow-2xl m-4 transform transition-all duration-300 ease-in-out animate-modal-pop">
           <div className="absolute top-5 left-8 z-10 text-white">
-            <h3 className="font-bold text-xl">{getChapterName(currentSlot?.chapter_id)}</h3>
+            <h3 className="font-bold text-xl">{currentSlot?.chapter_title}</h3>
             <p className="text-sm opacity-80">
-              {getSubjectFromChapter(currentSlot?.chapter_id)} - {currentSlot?.language}
+              {getSubjectName(currentSlot?.subject_id)} - {currentSlot?.language}
             </p>
             <div className="flex flex-wrap gap-1 mt-2">
               {currentSlot?.topics_covered.map((topicId, index) => (
@@ -530,9 +549,11 @@ const Matching = () => {
             </svg>
           </button>
           
-          <div className="w-full h-full rounded-lg overflow-hidden">
-            <Video />
-          </div>
+          <div
+            className="w-full h-full rounded-lg overflow-hidden z-[1000000]"
+            >
+            <Video className="z-[1000000]" / >
+            </div>
         </div>
       </div>
     )}

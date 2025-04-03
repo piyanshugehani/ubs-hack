@@ -40,8 +40,8 @@ const Sidebar = () => {
           available: true
         },
         {
-          text: "Matching",
-          icon: "bx bx-cog",
+          text: "Find Sessions",
+          icon: "bx bx-search",
           link: "/matching",
           available: true
         }
