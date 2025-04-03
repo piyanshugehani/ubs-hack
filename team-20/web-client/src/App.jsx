@@ -15,6 +15,7 @@ import StudentClasses from "./pages/StudentClasses";
 import LiveSession from "./pages/LiveSession";
 import Notes from "./pages/Notes";
 import Feedback from "./pages/Feedback";
+import StudentDashboard from "./pages/StudentDashboard";
 import SyllabusUpload from "./pages/upload/Upload";
 
 function AppWrapper() {
@@ -39,7 +40,7 @@ function AppWrapper() {
       ) : isStudentPath ? (
         <StudentLayout>
           <Routes>
-            <Route path="/student" element={<Dashboard />} />
+            <Route path="/student" element={<StudentDashboard />} />
             <Route path="/student/classes" element={<StudentClasses />} />
             <Route path="/student/live" element={<LiveSession />} />
             <Route path="/student/notes" element={<Notes />} />

@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import Sidebar from './Sidebar';
+import Sidebar2 from './Sidebar2';
 import Navbar from './Navbar';
 import Footer from './Footer';
 
@@ -10,14 +10,14 @@ const StudentLayout = ({ children }) => {
   return (
     <div className="layout-wrapper layout-content-navbar">
       <div className="layout-container">
-        <Sidebar />
+        <Sidebar2 />
         <div className="layout-page ">
           <Navbar />
           <div className="content-wrapper">
             <div className="container-xxl flex-grow-1 container-p-y">
             {children}
             </div>
-            <Footer />
+            {/* <Footer /> */}
           </div>
         </div>
       <div className="layout-overlay layout-menu-toggle"></div>
