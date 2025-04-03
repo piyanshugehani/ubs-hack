@@ -2,7 +2,7 @@ import { BrowserRouter as Router, Routes, Route, useLocation } from "react-route
 import VolunteerLayout from "./layouts/VolunteerLayout";
 import SchoolLayout from "./layouts/SchoolLayout";
 import StudentLayout from "./layouts/StudentLayout";
-import Dashboard from "./pages/Dashboard";
+import SchoolDashboard from "./pages/SchoolDashboard";
 import Sessions from "./pages/Sessions";
 import SessionDetails from "./pages/SessionDetails";
 import Progress from "./pages/Progress";
@@ -17,6 +17,7 @@ import Notes from "./pages/Notes";
 import Feedback from "./pages/Feedback";
 import StudentDashboard from "./pages/StudentDashboard";
 import SyllabusUpload from "./pages/upload/Upload";
+import Dashboard from "./pages/Dashboard";
 
 function AppWrapper() {
   const location = useLocation();
@@ -28,7 +29,7 @@ function AppWrapper() {
       {isSchoolPath ? (
         <SchoolLayout>
           <Routes>
-            <Route path="/school" element={<Dashboard />} />
+            <Route path="/school" element={<SchoolDashboard />} />
             <Route path="/school/upload" element={<SyllabusUpload />} />
             <Route path="/school/volunteers" element={<ManageVolunteers />} />
             <Route path="/school/sessions" element={<ManageSessions />} />

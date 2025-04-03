@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import Sidebar from './Sidebar';
+import Sidebar from './SchoolSidebar';
 import Navbar from './Navbar';
 import Footer from './Footer';
 

@@ -1,42 +1,22 @@
 import React from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
-import Logo from './../../public/assets/img/logo.png'
 import { DotLottieReact } from '@lottiefiles/dotlottie-react';
 
 const Sidebar = () => {
   // Routes from the provided data
   const menuData = [
     {
-      header: "Volunteer Dashboard",
+      header: "School Dashboard",
       items: [
         {
           text: "Dashboard",
           icon: "bx bx-home-circle",
           link: "/",
           available: true
-        },
-        {
-          text: "Live Sessions",
-          icon: "bx bx-calendar",
-          link: "/sessions",
-          available: true
-        },
-        {
-          text: "Past Sessions",
-          icon: "bx bx-calendar",
-          link: "/past-sessions",
-          available: true
-        },
-        {
-          text: "My Progress",
-          icon: "bx bx-chart",
-          link: "/progress",
-          available: true
-        },
-        {
-          text: "Settings",
-          icon: "bx bx-cog",
-          link: "/settings",
+        },{
+          text: "Upload",
+          icon: "bx bx-upload",
+          link: "/school/upload",
           available: true
         }
       ]
