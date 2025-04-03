@@ -7,7 +7,7 @@ import Sessions from "./pages/Sessions";
 import SessionDetails from "./pages/SessionDetails";
 import Progress from "./pages/Progress";
 import Settings from "./pages/Settings";
-import LMSIntegration from "./pages/LMSIntegration";
+// import LMSIntegration from "./pages/LMSIntegration";
 import ManageVolunteers from "./pages/ManageVolunteers";
 import ManageSessions from "./pages/ManageSessions";
 import Analytics from "./pages/Analytics";
@@ -15,6 +15,7 @@ import StudentClasses from "./pages/StudentClasses";
 import LiveSession from "./pages/LiveSession";
 import Notes from "./pages/Notes";
 import Feedback from "./pages/Feedback";
+import SyllabusUpload from "./pages/upload/Upload";
 
 function AppWrapper() {
   const location = useLocation();
@@ -27,7 +28,7 @@ function AppWrapper() {
         <SchoolLayout>
           <Routes>
             <Route path="/school" element={<Dashboard />} />
-            <Route path="/school/lms" element={<LMSIntegration />} />
+            <Route path="/school/upload" element={<SyllabusUpload />} />
             <Route path="/school/volunteers" element={<ManageVolunteers />} />
             <Route path="/school/sessions" element={<ManageSessions />} />
             <Route path="/school/sessions/:id" element={<SessionDetails />} />
