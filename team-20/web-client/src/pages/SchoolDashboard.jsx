@@ -5,8 +5,6 @@ export default function Dashboard() {
     useEffect(() => {
         dashboardAnalitics();
     }, []);
-
-    // Generate sample contribution data for the heatmap
     const generateContributionData = () => {
         const data = [];
         for (let i = 0; i < 7; i++) {
