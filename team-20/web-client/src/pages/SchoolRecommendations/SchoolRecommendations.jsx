@@ -5,6 +5,7 @@ import { useState, useEffect } from "react"
 import { VolunteerCard } from "./volunteerCard"
 import { VolunteerDetails } from "./volunteerDetails"
 import dummyVolunteers from '../../data/vol.json'
+import axios from "axios"
 // Dummy volunteer data
 
 function Vol() {
@@ -19,8 +20,30 @@ function Vol() {
 
   useEffect(() => {
     // Set volunteers data
-    setVolunteers(dummyVolunteers)
-    setSelectedVolunteer(dummyVolunteers[0])
+
+    const fetchData = async () => {
+      try {
+        const response = await axios.get("http://localhost:5000/recommend_volunteers?school_id=1");
+        console.log(response.data.recommended_volunteers);
+        setVolunteers(response.data.recommended_volunteers);
+        if (response.data.recommended_volunteers && response.data.recommended_volunteers.length > 0) {
+          setSelectedVolunteer(response.data.recommended_volunteers[0]);
+        // } else {
+        //   setVolunteers(dummyVolunteers);
+        //   setSelectedVolunteer(dummyVolunteers[0]);
+        }
+      } catch (error) {
+        console.error("Error fetching volunteers:", error);
+        setVolunteers(dummyVolunteers);
+        setSelectedVolunteer(dummyVolunteers[0]);
+      }
+    };
+
+    fetchData();
+
+    // console.log(realData)
+    // setVolunteers(dummyVolunteers)
+    // setSelectedVolunteer(dummyVolunteers[0])
   }, [])
 
   const handleFilterChange = (filterName, value) => {
@@ -32,30 +55,60 @@ function Vol() {
 
   const filteredVolunteers = volunteers.filter((volunteer) => {
     // Filter by skills
-    if (
-      filters.skills &&
-      !volunteer.skills.some((skill) => skill.toLowerCase().includes(filters.skills.toLowerCase()))
-    ) {
-      return false
+    if (filters.skills && filters.skills.trim() !== "") {
+      if (!volunteer.skills || !Array.isArray(volunteer.skills)) {
+        return false;
+      }
+      if (!volunteer.skills.some((skill) => 
+        skill && typeof skill === 'string' && 
+        skill.toLowerCase().includes(filters.skills.toLowerCase())
+      )) {
+        return false;
+      }
     }
-
+  
     // Filter by location
-    if (filters.location && !volunteer.locations.toLowerCase().includes(filters.location.toLowerCase())) {
-      return false
+    if (filters.location && filters.location.trim() !== "") {
+      if (!volunteer.locations) {
+        return false;
+      }
+      
+      if (Array.isArray(volunteer.locations)) {
+        const hasMatchingLocation = volunteer.locations.some(location => 
+          location && typeof location === 'string' && 
+          location.toLowerCase().includes(filters.location.toLowerCase())
+        );
+        if (!hasMatchingLocation) return false;
+      } else if (typeof volunteer.locations === 'string') {
+        if (!volunteer.locations.toLowerCase().includes(filters.location.toLowerCase())) {
+          return false;
+        }
+      } else {
+        return false;
+      }
     }
-
+  
     // Filter by location type
-    if (filters.locationType && volunteer.location_type_preference !== filters.locationType) {
-      return false
+    if (filters.locationType && filters.locationType !== "") {
+      if (!volunteer.location_type_preference || 
+          volunteer.location_type_preference !== filters.locationType) {
+        return false;
+      }
     }
-
+  
     // Filter by availability
-    if (filters.availability === "available" && volunteer.available !== "yes") {
-      return false
+    if (filters.availability && filters.availability !== "") {
+      if (filters.availability === "available" && volunteer.available !== "yes") {
+        return false;
+      }
+      if (filters.availability === "limited" && volunteer.available !== "limited") {
+        return false;
+      }
     }
-
-    return true
-  })
+  
+    return true;
+  });
+  
 
   return (
     <div className="min-h-screen bg-gray-100 p-4 md:p-6">

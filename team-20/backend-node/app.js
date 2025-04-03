@@ -19,9 +19,14 @@ app.use(express.json({limit:"16kb"}))
 app.use(express.static("public"))
 
 import authRoutes from './routes/authroutes.js'; 
+import syllabusRoutes from './routes/syllabusroutes.js';
+import slotRoutes from './routes/slotroutes.js';
+import volunteerRoutes from './routes/volunteerroutes.js';
+
 app.use('/api', authRoutes);
-
-
+app.use('/api/syllabus', syllabusRoutes);
+app.use('/api/slots', slotRoutes);
+app.use('/api/volunteers', volunteerRoutes);
 app.get('/test', (req, res) => {
     res.send('Test endpoint hit');
 });
