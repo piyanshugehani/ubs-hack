@@ -7,7 +7,6 @@ import Sessions from "./pages/Sessions";
 import SessionDetails from "./pages/SessionDetails";
 import Progress from "./pages/Progress";
 import Settings from "./pages/Settings";
-// import LMSIntegration from "./pages/LMSIntegration";
 import StudentClasses from "./pages/StudentClasses";
 import LiveSession from "./pages/LiveSession";
 import Notes from "./pages/Notes";
@@ -18,7 +17,7 @@ import Vol from "./pages/SchoolRecommendations/SchoolRecommendations";
 import { GoogleTranslate } from "./GoogleTranslate";
 import VolunteerDashboard from "./pages/SchoolDashboard";
 import SyllabusTable from "./pages/Syllabus";
-
+import VolunteerForm from "./pages/Onbaording/Volunteerboarding";
 function AppWrapper() {
   const location = useLocation();
   const isSchoolPath = location.pathname.startsWith("/school");
@@ -55,6 +54,7 @@ function AppWrapper() {
             <Route path="/sessions/:id" element={<SessionDetails />} />
             <Route path="/progress" element={<Progress />} />
             <Route path="/settings" element={<Settings />} />
+            <Route path="/onboarding" element={<VolunteerForm/>} /> 
           </Routes>
         </VolunteerLayout>
       )}

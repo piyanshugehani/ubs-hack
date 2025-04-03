@@ -1,5 +1,3 @@
-import React from "react";
-
 const StudentProgress = () => {
   return (
     <div className="row">
