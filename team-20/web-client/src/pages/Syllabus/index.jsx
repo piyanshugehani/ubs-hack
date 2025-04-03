@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { ChevronDown, ChevronRight, Check, X } from 'lucide-react'
+import { ChevronDown, ChevronRight, Check, X, BookOpen, Tag, ListChecks } from 'lucide-react'
 
 export default function SyllabusTable() {
   const [syllabusData, setSyllabusData] = useState([
@@ -65,106 +65,164 @@ export default function SyllabusTable() {
     (acc, item) => acc + item.topics.filter(topic => topic.assigned).length, 
     0
   )
+  
+  // Get percentage of assigned topics
+  const assignedPercentage = Math.round((assignedTopics / totalTopics) * 100)
 
   return (
-    <div className="w-full shadow-md rounded-lg border border-gray-200">
+    <div className="w-full  rounded-xl border border-gray-200 overflow-hidden">
       {/* Card Header */}
-      <div className="bg-slate-50 border-b p-6">
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-2">
+      <div className="bg-gradient-to-r from-blue-50 to-indigo-50 border-b p-6">
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           <div>
-            <h3 className="text-2xl font-bold">Syllabus</h3>
-            <p className="text-gray-500 text-sm">
+            <h3 className="text-2xl font-bold text-gray-800 flex items-center gap-2">
+              <BookOpen className="h-6 w-6 text-blue-600" />
+              Syllabus
+            </h3>
+            <p className="text-gray-600 text-sm mt-1">
               Course curriculum and assigned topics
             </p>
           </div>
-          <div className="flex items-center gap-2">
-            <span className="text-sm font-normal px-2 py-1 rounded-full border border-gray-300 text-gray-700">
-              {syllabusData.length} Chapters
-            </span>
-            <span className="text-sm font-normal px-2 py-1 rounded-full border border-gray-300 text-gray-700">
-              {totalTopics} Topics
-            </span>
-            <span className="text-sm font-normal px-2 py-1 rounded-full bg-blue-600 text-white">
-              {assignedTopics} Assigned
-            </span>
+          <div className="flex items-center gap-3">
+            <div className="flex flex-col">
+              <div className="w-full bg-gray-200 rounded-full h-2.5">
+                <div 
+                  className="bg-blue-600 h-2.5 rounded-full" 
+                  style={{ width: `${assignedPercentage}%` }}
+                ></div>
+              </div>
+              <span className="text-xs text-gray-600 mt-1">{assignedPercentage}% assigned</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="text-sm font-medium px-3 py-1.5 rounded-full bg-blue-100 text-blue-800 flex items-center gap-1.5">
+                <Tag className="h-3.5 w-3.5" />
+                {syllabusData.length}
+              </span>
+              <span className="text-sm font-medium px-3 py-1.5 rounded-full bg-indigo-100 text-indigo-800 flex items-center gap-1.5">
+                <ListChecks className="h-3.5 w-3.5" />
+                {assignedTopics}/{totalTopics}
+              </span>
+            </div>
           </div>
         </div>
       </div>
       
       {/* Table */}
-      <div className="w-full overflow-auto">
-        <table className="w-full">
+      <div className="w-full">
+        <table className="w-full border-collapse">
           {/* Table Header */}
           <thead>
-            <tr className="bg-slate-50 hover:bg-slate-50">
-              <th className="w-[50px] p-4 text-left"></th>
-              <th className="w-[80px] p-4 text-left font-medium text-gray-700">Class</th>
-              <th className="w-[250px] p-4 text-left font-medium text-gray-700">Chapter</th>
-              <th className="w-[200px] p-4 text-left font-medium text-gray-700">Subject</th>
-              <th className="p-4 text-left font-medium text-gray-700">Topics</th>
+            <tr className="bg-gray-50 border-b border-gray-200">
+              <th className="w-[15%] px-6 py-4 text-left font-semibold text-gray-700">Class</th>
+              <th className="w-[30%] px-6 py-4 text-left font-semibold text-gray-700">Chapter</th>
+              <th className="w-[25%] px-6 py-4 text-left font-semibold text-gray-700">Subject</th>
+              <th className="w-[30%] px-6 py-4 text-left font-semibold text-gray-700">Topics</th>
             </tr>
           </thead>
           
           {/* Table Body */}
           <tbody>
             {syllabusData.map((item, index) => (
-              <tr key={index} className="group border-b border-gray-200 hover:bg-gray-50">
-                <td className="p-4">
-                  <button 
-                    onClick={() => toggleExpand(index)}
-                    className="p-1.5 rounded-full hover:bg-slate-100 transition-colors"
-                  >
-                    {item.expanded ? 
-                      <ChevronDown className="h-4 w-4 transition-transform duration-200" /> : 
-                      <ChevronRight className="h-4 w-4 transition-transform duration-200" />
-                    }
-                  </button>
-                </td>
-                <td className="p-4">
-                  <span className="font-medium px-2 py-0.5 bg-slate-50 border border-gray-200 rounded-md text-sm">
-                    {item.class}
-                  </span>
-                </td>
-                <td className="p-4 font-medium">{item.chapter}</td>
-                <td className="p-4">{item.subject}</td>
-                <td className="p-4">
-                  {item.expanded ? (
-                    <div className="space-y-3 py-1">
-                      {item.topics.map((topic, topicIndex) => (
-                        <div 
-                          key={topicIndex} 
-                          className="flex items-center justify-between border-b pb-3 last:border-0 last:pb-0"
-                        >
-                          <span className="font-medium text-sm">{topic.name}</span>
-                          {topic.assigned ? (
-                            <span className="ml-2 bg-green-100 text-green-800 hover:bg-green-200 px-2 py-1 rounded-full text-xs flex items-center">
-                              <Check className="mr-1 h-3 w-3" />
-                              Assigned
-                            </span>
-                          ) : (
-                            <span className="ml-2 text-slate-500 border border-gray-200 px-2 py-1 rounded-full text-xs flex items-center">
-                              <X className="mr-1 h-3 w-3" />
-                              Not Assigned
-                            </span>
-                          )}
-                        </div>
-                      ))}
-                    </div>
-                  ) : (
-                    <div className="flex items-center gap-2">
-                      <span className="text-gray-500 text-sm">
-                        {item.topics.length} topics
+              <>
+                <tr 
+                  key={`row-${index}`} 
+                  className={`border-b border-gray-200 hover:bg-gray-50 cursor-pointer transition-all ${index % 2 === 0 ? 'bg-white' : 'bg-gray-50/50'}`}
+                  onClick={() => toggleExpand(index)}
+                >
+                  <td className="px-6 py-4">
+                    <div className="flex items-center gap-3">
+                      <div className={`p-1 rounded-md transition-colors ${item.expanded ? 'bg-blue-100 text-blue-600' : 'bg-gray-100 text-gray-500'}`}>
+                        {item.expanded ? 
+                          <ChevronDown className="h-4 w-4" /> : 
+                          <ChevronRight className="h-4 w-4" />
+                        }
+                      </div>
+                      <span className="font-medium px-2.5 py-1 bg-gray-100 border border-gray-200 rounded-lg text-sm text-gray-700">
+                        {item.class}
                       </span>
-                      <span className="text-xs text-gray-500">•</span>
-                      <span className="text-sm">
-                        <span className="font-normal text-xs border border-gray-200 px-2 py-0.5 rounded-full">
+                    </div>
+                  </td>
+                  <td className="px-6 py-4 font-medium text-gray-800">{item.chapter}</td>
+                  <td className="px-6 py-4 text-gray-700">
+                    <span className="px-2.5 py-1 bg-blue-50 text-blue-700 rounded-lg text-sm font-medium">
+                      {item.subject}
+                    </span>
+                  </td>
+                  <td className="px-6 py-4">
+                    <div className="flex items-center gap-3">
+                      <div className="flex -space-x-2">
+                        {item.topics.slice(0, 3).map((topic, i) => (
+                          <div 
+                            key={i} 
+                            className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-medium border-2 border-white ${
+                              topic.assigned 
+                                ? 'bg-green-100 text-green-800' 
+                                : 'bg-gray-100 text-gray-600'
+                            }`}
+                          >
+                            {topic.name.charAt(0)}
+                          </div>
+                        ))}
+                        {item.topics.length > 3 && (
+                          <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center text-xs font-medium border-2 border-white">
+                            +{item.topics.length - 3}
+                          </div>
+                        )}
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <span className="text-gray-500 text-sm font-medium">
+                          {item.topics.length} topics
+                        </span>
+                        <span className="text-xs text-gray-400">•</span>
+                        <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${
+                          item.topics.filter(t => t.assigned).length > 0 
+                            ? "bg-green-100 text-green-800" 
+                            : "bg-gray-100 text-gray-600"
+                        }`}>
                           {item.topics.filter(t => t.assigned).length} assigned
                         </span>
-                      </span>
+                      </div>
                     </div>
-                  )}
-                </td>
-              </tr>
+                  </td>
+                </tr>
+                
+                {/* Expanded content row */}
+                {item.expanded && (
+                  <tr key={`expanded-${index}`} className="border-b border-gray-200">
+                    <td colSpan={4} className="p-0">
+                      <div className="p-4 pl-16 bg-gray-50/80">
+                        <div className="bg-white rounded-xl border border-gray-200 p-6 w-full shadow-sm">
+                          <h4 className="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
+                            <Tag className="h-4 w-4 text-blue-600" />
+                            Topics in {item.chapter}
+                          </h4>
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            {item.topics.map((topic, topicIndex) => (
+                              <div 
+                                key={topicIndex} 
+                                className="flex items-center justify-between p-4 rounded-xl border border-gray-100 hover:border-gray-300 hover:shadow-sm transition-all bg-white"
+                              >
+                                <span className="font-medium text-gray-800">{topic.name}</span>
+                                {topic.assigned ? (
+                                  <span className="ml-2 bg-green-100 text-green-800 px-3 py-1.5 rounded-full text-xs font-medium flex items-center">
+                                    <Check className="mr-1.5 h-3.5 w-3.5" />
+                                    Assigned
+                                  </span>
+                                ) : (
+                                  <span className="ml-2 bg-gray-100 text-gray-600 px-3 py-1.5 rounded-full text-xs font-medium flex items-center">
+                                    <X className="mr-1.5 h-3.5 w-3.5" />
+                                    Not Assigned
+                                  </span>
+                                )}
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                )}
+              </>
             ))}
           </tbody>
         </table>
