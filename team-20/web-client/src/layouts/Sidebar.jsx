@@ -38,6 +38,12 @@ const Sidebar = () => {
           icon: "bx bx-cog",
           link: "/settings",
           available: true
+        },
+        {
+          text: "Find Sessions",
+          icon: "bx bx-search",
+          link: "/matching",
+          available: true
         }
       ]
     }

@@ -1,4 +1,5 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom';
 import { ZegoUIKitPrebuilt } from '@zegocloud/zego-uikit-prebuilt';
 
 function randomID(len) {
@@ -21,8 +22,8 @@ function randomID(len) {
     return new URLSearchParams(urlStr);
   }
 
-function Video() {
-
+function VideoStudent() {
+    const navigate = useNavigate();
     const roomID = getUrlParams().get('roomID') || randomID(5);
       let myMeeting = async (element) => {
      // generate Kit Token
@@ -49,12 +50,15 @@ function Video() {
          scenario: {
            mode: ZegoUIKitPrebuilt.GroupCall, // To implement 1-on-1 calls, modify the parameter here to [ZegoUIKitPrebuilt.OneONoneCall].
          },
+         onLeaveRoom: () => {
+            navigate('/student/feedback');  
+        },
        });
     }
 
   return (
     <div
-      className="myCallContainer fixed inset-0 z-[9999] flex items-center justify-center"
+      className="myCallContainer"
       ref={myMeeting}
       style={{ 
         width: '100%', 
@@ -67,4 +71,4 @@ function Video() {
 
 }
 
-export default Video;
+export default VideoStudent;

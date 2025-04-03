@@ -12,7 +12,7 @@ const VolunteerLayout = ({ children }) => {
       <div className="layout-container">
         <Sidebar />
         <div className="layout-page ">
-          <Navbar />
+          {/* <Navbar /> */}
           <div className="content-wrapper">
             <div className="container-xxl flex-grow-1 container-p-y">
             {children}
