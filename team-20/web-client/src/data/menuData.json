@@ -6,13 +6,18 @@
                 "text": "Dashboard",
                 "icon": "bx bx-home",
                 "available": true,
-                "link": "/"
+                "link": "/school"
             },
             {
                 "text": "Upload",
                 "icon": "bx bx-upload",
                 "available": true,
-                "link": "/upload"
+                "link": "/school/upload"
+            },  {
+                "text": "Recommendations",
+                "icon": "bx bx-upload",
+                "available": true,
+                "link": "/school/volunteers"
             }
         ]
     }

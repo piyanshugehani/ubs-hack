@@ -18,6 +18,7 @@ import Feedback from "./pages/Feedback";
 import StudentDashboard from "./pages/StudentDashboard";
 import SyllabusUpload from "./pages/upload/Upload";
 import SchoolDashboard from "./pages/SchoolDashboard";
+import Vol from "./pages/SchoolRecommendations/SchoolRecommendations";
 
 function AppWrapper() {
   const location = useLocation();
@@ -31,11 +32,12 @@ function AppWrapper() {
           <Routes>
             <Route path="/school" element={<SchoolDashboard />} />
             <Route path="/school/upload" element={<SyllabusUpload />} />
-            <Route path="/school/volunteers" element={<ManageVolunteers />} />
+            <Route path="/school/volunteers" element={<Vol />} />
             <Route path="/school/sessions" element={<ManageSessions />} />
             <Route path="/school/sessions/:id" element={<SessionDetails />} />
             <Route path="/school/analytics" element={<Analytics />} />
             <Route path="/school/settings" element={<Settings />} />
+            
           </Routes>
         </SchoolLayout>
       ) : isStudentPath ? (
