@@ -18,6 +18,16 @@ const SyllabusSchema = new Schema({
   grade: { 
     type: String, // Example: "1st Grade", "Montessori"
     required: true
+  },
+  file_url: {
+    type: String,
+    required: true,
+    validate: {
+      validator: function(v) {
+        return /^https?:\/\/.+/.test(v);
+      },
+      message: 'File URL must be a valid URL'
+    }
   }
 }, { timestamps: true });
 

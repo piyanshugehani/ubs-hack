@@ -19,8 +19,10 @@ const ChapterSchema = new Schema({
     type: Number
   },
   required_skills: {
-    type: Map, // Example: {"math": 5, "physics": 8}
-    of: Number
+    skills: {
+      type: [String],  // Changed from Map to String array
+      default: []
+    }
   },
   weightage: {
     type: Number
