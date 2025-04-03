@@ -161,7 +161,7 @@ const BasicEndpoints: React.FC = () => {
                           <Typography><strong>Language:</strong> {slot.language}</Typography>
                           <Typography><strong>Match Score:</strong> {slot.matchScore}%</Typography>
                           <Typography><strong>Reason:</strong> {slot.matchReason}</Typography>
-                          <Typography><strong>Assigned:</strong> {slot.assignedOrNot}</Typography>
+                          {/* <Typography><strong>Assigned:</strong> {slot.assignedOrNot}</Typography> */}
                           {slot.schedule && (
                             <Typography>
                               <strong>Schedule:</strong> {slot.schedule.day} at {slot.schedule.time}

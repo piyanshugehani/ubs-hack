@@ -1,141 +1,103 @@
+import json
 from pymongo import MongoClient
-from datetime import datetime, timedelta
-import random
 
 client = MongoClient("mongodb://localhost:27017")
 db = client["volunteer_matching_db"]
 
-def generate_schools(n=5):
-    schools = [{"school_id": i, "name": f"School {i}", "location": random.choice(["New York", "LA", "Chicago"]), "description": f"School #{i}"} for i in range(1, n+1)]
-    db.schools.insert_many(schools)
+def load_json():
+    return {
+        "schools": [
+            {"school_id": 1, "name": "Delhi Public School", "location": "Delhi",
+             "requirements": {"languages": ["English", "Hindi"], "subjects": ["Python", "Data Structures"], "grades": ["11", "12"]}},
+            {"school_id": 2, "name": "Bangalore International School", "location": "Bangalore",
+             "requirements": {"languages": ["English", "Kannada"], "subjects": ["Operating Systems", "AI"], "grades": ["11", "12"]}},
+            {"school_id": 3, "name": "Mumbai High", "location": "Mumbai",
+             "requirements": {"languages": ["English", "Marathi"], "subjects": ["Networking", "DBMS"], "grades": ["10", "12"]}},
+            {"school_id": 4, "name": "Hyderabad Tech Academy", "location": "Hyderabad",
+             "requirements": {"languages": ["English", "Telugu"], "subjects": ["Python", "AI"], "grades": ["11", "12"]}},
+            {"school_id": 5, "name": "Chennai Public School", "location": "Chennai",
+             "requirements": {"languages": ["English", "Tamil"], "subjects": ["Data Structures", "Cybersecurity"], "grades": ["10", "12"]}}
+        ],
+        "syllabus": [
+            {"syllabus_id": 1, "school_id": 1, "title": "Grade 11 CS - Python Basics",
+             "subjects": [{"title": "Python Programming",
+                           "chapters": [{"title": "Syntax & Variables", "topics": ["Syntax", "Variables"],
+                                         "required_skills": {"python": 1, "logic": 1}, "hours_needed": 6, "status": "unassigned",
+                                         "schedule": {"start_date": "2025-04-01", "end_date": "2025-05-01"}},
+                                        {"title": "Loops & Conditionals", "topics": ["Loops", "If-Else"],
+                                         "required_skills": {"python": 2, "logic": 2}, "hours_needed": 8, "status": "unassigned",
+                                         "schedule": {"start_date": "2025-05-10", "end_date": "2025-06-10"}}]}]},
+            {"syllabus_id": 2, "school_id": 2, "title": "Grade 12 Advanced AI",
+             "subjects": [{"title": "Artificial Intelligence",
+                           "chapters": [{"title": "Introduction to AI", "topics": ["Machine Learning", "Neural Networks"],
+                                         "required_skills": {"ai": 3, "python": 2}, "hours_needed": 10, "status": "unassigned",
+                                         "schedule": {"start_date": "2025-06-01", "end_date": "2025-07-15"}}]}]},
+            {"syllabus_id": 3, "school_id": 3, "title": "Grade 10 Networking Basics",
+             "subjects": [{"title": "Networking",
+                           "chapters": [{"title": "OSI Model", "topics": ["Layers", "Protocols"],
+                                         "required_skills": {"networking": 2, "logic": 1}, "hours_needed": 7, "status": "unassigned",
+                                         "schedule": {"start_date": "2025-07-01", "end_date": "2025-08-15"}}]}]},
+            {"syllabus_id": 4, "school_id": 4, "title": "Grade 11 Data Structures",
+             "subjects": [{"title": "Data Structures",
+                           "chapters": [{"title": "Trees & Graphs", "topics": ["Trees", "Graphs"],
+                                         "required_skills": {"data_structures": 4, "python": 3}, "hours_needed": 10, "status": "unassigned",
+                                         "schedule": {"start_date": "2025-08-01", "end_date": "2025-09-30"}}]}]}
+        ],
+        "volunteers": [
+            {"volunteer_id": 1, "name": "Amit Sharma", "skills": {"python": 8, "logic": 7}, "languages": [{"code": "en"}, {"code": "hi"}],
+             "preferences": {"location": "Delhi", "max_hours_per_week": 10, "subjects": ["Python"]},
+             "metrics": {"hours_taught": 50, "rating": 4.5}, "availability": [{"day": "Monday"}, {"day": "Wednesday"}]},
+            {"volunteer_id": 2, "name": "Priya Kapoor", "skills": {"python": 6, "data_structures": 5}, "languages": [{"code": "en"}],
+             "preferences": {"location": "Bangalore", "max_hours_per_week": 8, "subjects": ["Data Structures"]},
+             "metrics": {"hours_taught": 30, "rating": 4.0}, "availability": [{"day": "Tuesday"}, {"day": "Thursday"}]},
+            {"volunteer_id": 3, "name": "Rahul Verma", "skills": {"networking": 7, "logic": 5}, "languages": [{"code": "en"}, {"code": "mr"}],
+             "preferences": {"location": "Mumbai", "max_hours_per_week": 12, "subjects": ["Networking"]},
+             "metrics": {"hours_taught": 60, "rating": 4.2}, "availability": [{"day": "Friday"}, {"day": "Saturday"}]},
+            {"volunteer_id": 4, "name": "Samantha Das", "skills": {"ai": 5, "python": 4}, "languages": [{"code": "en"}, {"code": "te"}],
+             "preferences": {"location": "Hyderabad", "max_hours_per_week": 6, "subjects": ["AI"]},
+             "metrics": {"hours_taught": 20, "rating": 4.8}, "availability": [{"day": "Monday"}, {"day": "Wednesday"}]}
+        ]
+    }
 
-def generate_syllabus(n=10):
-    syllabi = [{"syllabus_id": i, "school_id": random.randint(1, 5), "title": f"Syllabus {i}", "description": f"Syllabus for grade {random.randint(1, 12)}"} for i in range(1, n+1)]
-    db.syllabus.insert_many(syllabi)
-
-def generate_subjects(n=20):
-    subjects = [{"subject_id": i, "syllabus_id": random.randint(1, 10), "title": random.choice(["Math", "Physics", "History"]), "description": "Subject Details"} for i in range(1, n+1)]
-    db.subjects.insert_many(subjects)
-
-def generate_chapters(n=50):
-    chapters = []
-    for i in range(1, n+1):
-        required_skills = {"math": random.randint(1, 10), "physics": random.randint(1, 10)}
-        chapters.append({
-            "chapter_id": i,
-            "subject_id": random.randint(1, 20),
-            "title": f"Chapter {i}",
-            "description": "Important chapter",
-            "year": random.randint(1, 12),
-            "required_skills": required_skills,
-            "weightage": round(random.uniform(0.1, 1.0), 2),
-            "assignedOrNot": random.choice(["unassigned", "searching", "assigned"]),
-            "session_daterange": [str(datetime.now().date()), str((datetime.now() + timedelta(days=random.randint(10, 100))).date())],
-            "numberOfHours": random.randint(5, 20)
-        })
-    db.chapters.insert_many(chapters)
-
-def generate_topics(n=100):
-    topics = [{"topic_id": i, "chapter_id": random.randint(1, 50), "title": f"Topic {i}", "weightage": round(random.uniform(0.1, 1.0), 2)} for i in range(1, n+1)]
-    db.topics.insert_many(topics)
-
-def generate_volunteers(n=30):
-    volunteers = []
-    for i in range(1, n+1):
-        skills = {"math": random.randint(1, 10), "physics": random.randint(1, 10)}
-        languages = [{"code": "en", "level": "fluent"}, {"code": "es", "level": random.choice(["basic", "fluent"])}]
-        availability = [{"start": str(datetime.now().date()), "end": str((datetime.now() + timedelta(days=30)).date())}]
-        volunteers.append({
-            "volunteer_id": i,
-            "name": f"Volunteer {i}",
-            "email": f"volunteer{i}@example.com",
-            "phone": f"555-010{i}",
-            "skills": skills,
-            "languages": languages,
-            "locations": random.choice(["New York", "Los Angeles", "Chicago"]),
-            "location_type_preference": random.choice(["online", "offline", "hybrid"]),
-            "availability": availability,
-            "max_hours_per_week": random.randint(5, 40),
-            "hours_taught": random.randint(0, 200),
-            "rating": round(random.uniform(3.0, 5.0), 2),
-            "student_retention": round(random.uniform(50.0, 100.0), 2),
-            "gamification_points": random.randint(100, 5000)
-        })
-    db.volunteers.insert_many(volunteers)
-
-def generate_volunteer_availability(n=30):
-    days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
-    availability = []
-    for i in range(1, n+1):
-        for _ in range(random.randint(2, 5)):  # Each volunteer has 2-5 available time slots
-            availability.append({
-                "availability_id": len(availability) + 1,
-                "volunteer_id": i,
-                "day_of_week": random.choice(days),
-                "start_time": random.choice(["08:00:00", "09:00:00", "10:00:00", "13:00:00"]),
-                "end_time": random.choice(["12:00:00", "14:00:00", "16:00:00"])
-            })
-    db.volunteeravailability.insert_many(availability)
-
-def generate_slots(n=40):
+def create_slots_from_syllabus(syllabi):
     slots = []
-    for i in range(1, n+1):
-        slots.append({
-            "slot_id": i,
-            "chapter_id": random.randint(1, 50),
-            "topics_covered": [random.randint(1, 100) for _ in range(3)],
-            "language": random.choice(["en", "es"]),
-            "assignedOrNot": random.choice(["unassigned", "assigned"]),
-            "is_urgent": random.choice([True, False]),
-            "volunteer_id": None if random.random() > 0.5 else random.randint(1, 30)
-        })
-    db.slots.insert_many(slots)
+    slot_id = 1
+    for syllabus in syllabi:
+        for subject in syllabus["subjects"]:
+            for chapter in subject["chapters"]:
+                slots.append({
+                    "slot_id": slot_id,
+                    "chapter_data": {
+                        "title": chapter["title"],
+                        "topics": chapter["topics"],
+                        "required_skills": chapter["required_skills"],
+                        "hours_needed": chapter["hours_needed"],
+                        "status": chapter["status"],
+                        "schedule": chapter["schedule"]
+                    },
+                    "topics_covered": {topic: False for topic in chapter["topics"]},
+                    "language": "English",
+                    "assignedOrNot": "unassigned",
+                    "is_urgent": slot_id % 2 == 0,
+                    "volunteer_id": None
+                })
+                slot_id += 1
+    return slots
 
-def generate_sessions(n=20):
-    sessions = []
-    for i in range(1, n+1):
-        sessions.append({
-            "session_id": i,
-            "slot_id": random.randint(1, 40),
-            "volunteer_id": random.randint(1, 30),
-            "session_type": random.choice(["live", "recorded"]),
-            "session_date": str(datetime.now() - timedelta(days=random.randint(1, 60))),
-            "duration": random.randint(30, 180),
-            "feedback": f"Feedback for session {i}",
-            "student_engagement": random.randint(1, 10)
-        })
-    db.sessions.insert_many(sessions)
+def upload_data(data):
+    for collection in ["schools", "syllabus", "volunteers", "slots"]:
+        db.drop_collection(collection)
 
-def generate_badges(n=10):
-    badges = [{"badge_id": i, "name": f"Badge {i}", "description": f"Achieved badge {i}", "points_required": random.randint(100, 1000)} for i in range(1, n+1)]
-    db.badges.insert_many(badges)
+    db.schools.insert_many(data["schools"])
+    db.syllabus.insert_many(data["syllabus"])
+    db.volunteers.insert_many(data["volunteers"])
 
-def generate_volunteer_badges(n=50):
-    volunteer_badges = [{"volunteer_id": random.randint(1, 30), "badge_id": random.randint(1, 10), "awarded_date": str(datetime.now() - timedelta(days=random.randint(1, 365)))} for _ in range(n)]
-    db.volunteerbadges.insert_many(volunteer_badges)
+    slots = create_slots_from_syllabus(data["syllabus"])
+    if slots:
+        db.slots.insert_many(slots)
 
-def populate_database():
-    print("Populating database...")
-    generate_schools()
-    generate_syllabus()
-    generate_subjects()
-    generate_chapters()
-    generate_topics()
-    generate_volunteers()
-    generate_volunteer_availability()  # New availability data
-    generate_slots()
-    generate_sessions()
-    generate_badges()
-    generate_volunteer_badges()
-    print("Database population complete!")
-
-
-
-def delete_db():
-    client.drop_database("volunteer_matching_db")
-    print("Database deleted!")
-
+    print("Database populated successfully!")
 
 if __name__ == "__main__":
-    delete_db()
-    populate_database()
+    data = load_json()
+    upload_data(data)

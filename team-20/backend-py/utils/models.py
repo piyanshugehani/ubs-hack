@@ -1,77 +1,172 @@
-import datetime
-from mongoengine import Document, StringField, EmailField, IntField, FloatField, DateTimeField, ReferenceField, ListField, DictField
+from dataclasses import dataclass
+from typing import List, Dict, Optional
+from datetime import datetime
 
-class School(Document):
-    name = StringField(required=True)
-    location = StringField()
-    description = StringField()
+@dataclass
+class Language:
+    code: str
+    level: str
 
-class Syllabus(Document):
-    school = ReferenceField(School, required=True)
-    title = StringField(required=True)
-    description = StringField()
+@dataclass
+class Schedule:
+    day: str
+    slots: List[str]
 
-class Subject(Document):
-    syllabus = ReferenceField(Syllabus, required=True)
-    title = StringField(required=True)
-    description = StringField()
+@dataclass
+class ChapterSchedule:
+    start_date: str
+    end_date: str
 
-class Chapter(Document):
-    subject = ReferenceField(Subject, required=True)
-    title = StringField(required=True)
-    description = StringField()
+@dataclass
+class Chapter:
+    title: str
+    topics: List[str]
+    required_skills: Dict[str, int]
+    hours_needed: int
+    status: str
+    schedule: ChapterSchedule
 
-class Topic(Document):
-    chapter = ReferenceField(Chapter, required=True)
-    title = StringField(required=True)
-    weightage = FloatField()
+@dataclass
+class Subject:
+    title: str
+    chapters: List[Chapter]
 
-class Curriculum(Document):
-    school = ReferenceField(School, required=True)
-    syllabus = ReferenceField(Syllabus)
-    year = IntField()
-    skills = StringField()
-    weightage = FloatField()
-    assignedOrNot = StringField(choices=["unassigned", "searching", "assigned"])
-    session_daterange = DictField()
-    numberOfHours = IntField()
+@dataclass
+class Syllabus:
+    syllabus_id: int
+    school_id: int
+    title: str
+    subjects: List[Subject]
 
-class Volunteer(Document):
-    name = StringField(required=True)
-    email = EmailField(required=True, unique=True)
-    phone = StringField()
-    skills = StringField()
-    languages = ListField(DictField())
-    locations = StringField()
-    location_type_preference = StringField()
-    availability = StringField()
-    hours_taught = IntField(default=0)
-    rating = FloatField(default=0)
-    student_retention = FloatField(default=0)
-    gamification_points = IntField(default=0)
+@dataclass
+class SchoolRequirements:
+    languages: List[str]
+    subjects: List[str]
+    grades: List[str]
 
-class Badge(Document):
-    name = StringField(required=True)
-    description = StringField()
-    points_required = IntField()
+@dataclass
+class School:
+    school_id: int
+    name: str
+    location: str
+    description: str
+    requirements: SchoolRequirements
 
-class VolunteerBadge(Document):
-    volunteer = ReferenceField(Volunteer, required=True)
-    badge = ReferenceField(Badge, required=True)
-    awarded_date = DateTimeField(default=datetime.datetime.utcnow)
-    meta = {'indexes': [{'fields': ['volunteer', 'badge'], 'unique': True}]}
+@dataclass
+class VolunteerPreferences:
+    location: str
+    mode: str
+    max_hours_per_week: int
+    subjects: List[str]
+    grades: List[str]
 
-class Slot(Document):
-    curriculum = ReferenceField(Curriculum, required=True)
-    language = StringField()
-    assignedOrNot = StringField(choices=["unassigned", "assigned"])
-    volunteer = ReferenceField(Volunteer)
+@dataclass
+class VolunteerMetrics:
+    hours_taught: int
+    rating: float
+    student_retention: float
+    gamification_points: int
 
-class Session(Document):
-    slot = ReferenceField(Slot, required=True)
-    volunteer = ReferenceField(Volunteer, required=True)
-    session_type = StringField(choices=["live", "recorded"])
-    session_date = DateTimeField()
-    duration = IntField()
-    feedback = StringField()
-    student_engagement = IntField()
+@dataclass
+class Volunteer:
+    volunteer_id: int
+    name: str
+    email: str
+    phone: Optional[str]
+    skills: Dict[str, int]
+    languages: List[Language]
+    preferences: VolunteerPreferences
+    metrics: VolunteerMetrics
+    availability: List[Schedule]
+
+    def to_dict(self):
+        return {
+            "volunteer_id": self.volunteer_id,
+            "name": self.name,
+            "email": self.email,
+            "phone": self.phone,
+            "skills": self.skills,
+            "languages": [{"code": l.code, "level": l.level} for l in self.languages],
+            "preferences": {
+                "location": self.preferences.location,
+                "mode": self.preferences.mode,
+                "max_hours_per_week": self.preferences.max_hours_per_week,
+                "subjects": self.preferences.subjects,
+                "grades": self.preferences.grades
+            },
+            "metrics": {
+                "hours_taught": self.metrics.hours_taught,
+                "rating": self.metrics.rating,
+                "student_retention": self.metrics.student_retention,
+                "gamification_points": self.metrics.gamification_points
+            },
+            "availability": [{
+                "day": s.day,
+                "slots": s.slots
+            } for s in self.availability]
+        }
+
+    @staticmethod
+    def from_dict(data: dict) -> 'Volunteer':
+        return Volunteer(
+            volunteer_id=data["volunteer_id"],
+            name=data["name"],
+            email=data["email"],
+            phone=data.get("phone"),
+            skills=data["skills"],
+            languages=[Language(**l) for l in data["languages"]],
+            preferences=VolunteerPreferences(**data["preferences"]),
+            metrics=VolunteerMetrics(**data["metrics"]),
+            availability=[Schedule(**s) for s in data["availability"]]
+        )
+        
+        
+@dataclass
+class Slot:
+    slot_id: int
+    chapter_data: Chapter  # Embedded chapter data
+    topics_covered: Dict[str, bool]  # Track which topics are covered
+    language: str
+    assignedOrNot: str  # "unassigned" or "assigned"
+    is_urgent: bool
+    volunteer_id: Optional[int] = None  # Optional field for assigned volunteer
+
+    def to_dict(self):
+        return {
+            "slot_id": self.slot_id,
+            "chapter_data": {
+                "title": self.chapter_data.title,
+                "topics": self.chapter_data.topics,
+                "required_skills": self.chapter_data.required_skills,
+                "hours_needed": self.chapter_data.hours_needed,
+                "status": self.chapter_data.status,
+                "schedule": {
+                    "start_date": self.chapter_data.schedule.start_date,
+                    "end_date": self.chapter_data.schedule.end_date
+                }
+            },
+            "topics_covered": self.topics_covered,
+            "language": self.language,
+            "assignedOrNot": self.assignedOrNot,
+            "is_urgent": self.is_urgent,
+            "volunteer_id": self.volunteer_id
+        }
+
+    @staticmethod
+    def from_dict(data: dict) -> 'Slot':
+        return Slot(
+            slot_id=data["slot_id"],
+            chapter_data=Chapter(
+                title=data["chapter_data"]["title"],
+                topics=data["chapter_data"]["topics"],
+                required_skills=data["chapter_data"]["required_skills"],
+                hours_needed=data["chapter_data"]["hours_needed"],
+                status=data["chapter_data"]["status"],
+                schedule=ChapterSchedule(**data["chapter_data"]["schedule"])
+            ),
+            topics_covered=data["topics_covered"],
+            language=data["language"],
+            assignedOrNot=data["assignedOrNot"],
+            is_urgent=data["is_urgent"],
+            volunteer_id=data.get("volunteer_id")
+        )
