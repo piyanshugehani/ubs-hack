@@ -15,7 +15,7 @@ import StudentClasses from "./pages/StudentClasses";
 import LiveSession from "./pages/LiveSession";
 import Notes from "./pages/Notes";
 import Feedback from "./pages/Feedback";
-
+import BasicEndpoints from "./pages/BasicEndpoints";
 function AppWrapper() {
   const location = useLocation();
   const isSchoolPath = location.pathname.startsWith("/school");
@@ -53,8 +53,10 @@ function AppWrapper() {
             <Route path="/sessions/:id" element={<SessionDetails />} />
             <Route path="/progress" element={<Progress />} />
             <Route path="/settings" element={<Settings />} />
+            <Route path="/basic" element={<BasicEndpoints />} />
           </Routes>
         </VolunteerLayout>
+
       )}
     </>
   );
