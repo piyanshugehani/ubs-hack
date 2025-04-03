@@ -22,6 +22,7 @@ import SchoolDashboard from "./pages/SchoolDashboard";
 import Vol from "./pages/SchoolRecommendations/SchoolRecommendations";
 import Onboarding from "./pages/Onboarding";
 import Matching from "./pages/Matching";
+import QuizApp from "./pages/Quiz";
 
 function AppWrapper() {
   const location = useLocation();
@@ -53,6 +54,7 @@ function AppWrapper() {
             <Route path="/student/notes" element={<Notes />} />
             <Route path="/student/feedback" element={<Feedback />} />
             <Route path="/student/videos" element={<StudentVideos />} />
+            <Route path="/student/quiz" element={<QuizApp />} />
           </Routes>
         </StudentLayout>
       ) : (
