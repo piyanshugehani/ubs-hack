@@ -3,10 +3,11 @@ import Sidebar from './Sidebar';
 import Navbar from './Navbar';
 import Footer from './Footer';
 
-const Layout = ({ children }) => {
+const SchoolLayout = ({ children }) => {
   useEffect(() => {
     Main();
   },[])
+  
   return (
     <div className="layout-wrapper layout-content-navbar">
       <div className="layout-container">
@@ -26,4 +27,4 @@ const Layout = ({ children }) => {
   );
 };
 
-export default Layout;
+export default SchoolLayout;

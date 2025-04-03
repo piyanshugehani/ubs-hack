@@ -1,22 +1,69 @@
-import { useLocation } from "react-router-dom";
-import Layout from "./layouts/Layout";
-import AppRoutes from "./router/AppRoutes";
-import { Blank } from "./layouts/Blank";
+import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
+import VolunteerLayout from "./layouts/VolunteerLayout";
+import SchoolLayout from "./layouts/SchoolLayout";
+import StudentLayout from "./layouts/StudentLayout";
+import Dashboard from "./pages/Dashboard";
+import Sessions from "./pages/Sessions";
+import SessionDetails from "./pages/SessionDetails";
+import Progress from "./pages/Progress";
+import Settings from "./pages/Settings";
+import LMSIntegration from "./pages/LMSIntegration";
+import ManageVolunteers from "./pages/ManageVolunteers";
+import ManageSessions from "./pages/ManageSessions";
+import Analytics from "./pages/Analytics";
+import StudentClasses from "./pages/StudentClasses";
+import LiveSession from "./pages/LiveSession";
+import Notes from "./pages/Notes";
+import Feedback from "./pages/Feedback";
 
-function App() {
+function AppWrapper() {
   const location = useLocation();
-  const isAuthPath = location.pathname.includes("auth") || location.pathname.includes("error") || location.pathname.includes("under-maintenance") | location.pathname.includes("blank");
+  const isSchoolPath = location.pathname.startsWith("/school");
+  const isStudentPath = location.pathname.startsWith("/student");
+
   return (
     <>
-      {isAuthPath ? (
-        <AppRoutes>
-            <Blank/>
-          </AppRoutes>
+      {isSchoolPath ? (
+        <SchoolLayout>
+          <Routes>
+            <Route path="/school" element={<Dashboard />} />
+            <Route path="/school/lms" element={<LMSIntegration />} />
+            <Route path="/school/volunteers" element={<ManageVolunteers />} />
+            <Route path="/school/sessions" element={<ManageSessions />} />
+            <Route path="/school/sessions/:id" element={<SessionDetails />} />
+            <Route path="/school/analytics" element={<Analytics />} />
+            <Route path="/school/settings" element={<Settings />} />
+          </Routes>
+        </SchoolLayout>
+      ) : isStudentPath ? (
+        <StudentLayout>
+          <Routes>
+            <Route path="/student" element={<Dashboard />} />
+            <Route path="/student/classes" element={<StudentClasses />} />
+            <Route path="/student/live" element={<LiveSession />} />
+            <Route path="/student/notes" element={<Notes />} />
+            <Route path="/student/feedback" element={<Feedback />} />
+          </Routes>
+        </StudentLayout>
       ) : (
-        <Layout>
-          <AppRoutes />
-        </Layout>
+        <VolunteerLayout>
+          <Routes>
+            <Route path="/" element={<Dashboard />} />
+            <Route path="/sessions" element={<Sessions />} />
+            <Route path="/sessions/:id" element={<SessionDetails />} />
+            <Route path="/progress" element={<Progress />} />
+            <Route path="/settings" element={<Settings />} />
+          </Routes>
+        </VolunteerLayout>
       )}
+    </>
+  );
+}
+
+function App() {
+  return (
+    <>
+      <AppWrapper />
     </>
   );
 }
