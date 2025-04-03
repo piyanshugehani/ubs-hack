@@ -1,7 +1,7 @@
 import json
 from pymongo import MongoClient
 
-client = MongoClient("mongodb://localhost:27017")
+client = MongoClient("mongodb://localhost:27017/ubs")
 db = client["volunteer_matching_db"]
 
 def load_json():
