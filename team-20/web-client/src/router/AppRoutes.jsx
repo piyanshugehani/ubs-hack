@@ -47,13 +47,11 @@ import { DashboardPage } from "../pages/DashboardPage";
 
 import { PerfectScrollbarPage } from "../pages/extended-ui/PerfectScrollbar";
 import { TextDividerPage } from "../pages/extended-ui/TextDividerPage";
-import BasicEndpoints from "../pages/BasicEndpoints";
 
 const AppRoutes = () => {
     return (
         <Routes>
             <Route path="/" element={<DashboardPage />} />
-            <Route path="/basic" element={<BasicEndpoints />} />
             
             <Route path="/layout/without-menu" element={<WithoutMenuPage />} />
             <Route path="/layout/without-navbar" element={<WithoutNavbarPage />} />
