@@ -83,9 +83,16 @@ const Matching = () => {
       );
     }
 
-    return filtered.sort((a, b) => 
-      sortDirection === 'asc' ? a.matchScore - b.matchScore : b.matchScore - a.matchScore
-    );
+    return filtered.sort((a, b) => {
+      const dateA = new Date(a.date);
+      const dateB = new Date(b.date);
+    
+      if (sortDirection === 'asc') {
+        return dateA - dateB;
+      } else {
+        return dateB - dateA;
+      }
+    });
   };
 
   useEffect(() => {
@@ -177,56 +184,57 @@ const Matching = () => {
           onClick={toggleSort}
           className="p-2 bg-gray-100 rounded-md"
         >
-          Score {sortDirection === 'asc' ? '↑' : '↓'}
+          Date {sortDirection === 'asc' ? '↑' : '↓'}
         </button>
       </div>
 
       {isLoading ? (
         <div className="text-center py-12">Loading...</div>
       ) : (
-        <div className="grid gap-4 md:grid-cols-2">
-          {filteredSlots.map(slot => (
-            <div key={slot.slot_id} className="bg-white p-4 rounded-lg shadow">
-              <div className="flex justify-between">
-                <div>
-                  <h3 className="font-bold">{slot.chapter_title}</h3>
-                  <p className="text-sm text-gray-600">{slot.subject}</p>
-                </div>
-                <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded">
-                  {slot.matchScore}%
-                </span>
-              </div>
-
-              <div className="mt-2">
-                <p className="text-sm text-gray-600">{slot.matchReason}</p>
-                <div className="flex items-center mt-2 text-sm">
-                  <span className="mr-2">📅 {slot.schedule.day} {slot.schedule.time}</span>
-                  <span className="bg-gray-100 px-2 py-1 rounded">
-                    {getCountdown(slot.schedule)}
-                  </span>
-                </div>
-              </div>
-
-              <div className="mt-4 flex justify-between">
-                {activeTab === 'unassigned' ? (
-                  <button 
-                    className="bg-blue-500 text-white px-4 py-2 rounded"
-                    onClick={() => handleAssignToSelf(slot.slot_id)}
-                  >
-                    Accept Session
-                  </button>
-                ) : (
-                  <button 
-                    className="bg-green-500 text-white px-4 py-2 rounded"
-                    onClick={() => handleConductSession(slot)}
-                  >
-                    Start Session
-                  </button>
-                )}
-              </div>
-            </div>
-          ))}
+        <div className="grid gap-6 md:grid-cols-2 px-4 py-6">
+  {filteredSlots.map(slot => (
+    <div key={slot.slot_id} className="bg-white p-6 rounded-lg shadow hover:shadow-md transition-shadow">
+      <div className="flex justify-between items-start">
+        <div>
+          <h3 className="font-bold text-lg mb-1">{slot.chapter_title}</h3>
+          <p className="text-sm text-gray-600">{slot.subject}</p>
         </div>
+        {/* <span className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium">
+          {slot.matchScore}%
+        </span> */}
+      </div>
+
+      <div className="mt-3 mb-4">
+        <p className="text-sm text-gray-600 mb-3">{slot.matchReason}</p>
+        <div className="flex items-center mt-2 text-sm">
+          <span className="mr-3">📅 {slot.schedule.day} {slot.schedule.time}</span>
+          <span className="bg-gray-100 px-3 py-1 rounded-full">
+            {getCountdown(slot.schedule)}
+          </span>
+        </div>
+      </div>
+
+      <div className="mt-5 flex justify-end">
+        {activeTab === 'unassigned' ? (
+          <button 
+            className="bg-blue-500 hover:bg-blue-600 text-white px-5 py-2 rounded-md transition-colors"
+            onClick={() => handleAssignToSelf(slot.slot_id)}
+          >
+            Accept
+          </button>
+        ) : (
+          <button 
+            className="bg-green-500 hover:bg-green-600 text-white px-5 py-2 rounded-md transition-colors"
+            onClick={() => handleConductSession(slot)}
+          >
+            Start Session
+          </button>
+        )}
+      </div>
+    </div>
+  ))}
+</div>
+
       )}
 
       {isInCall && currentSlot && (
