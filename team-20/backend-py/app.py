@@ -7,6 +7,7 @@ import json
 import os
 from utils.extraction import get_structured_syllabus_from_pdf,extract_text_from_pdf,upload_to_cloudinary
 import tempfile
+from utils.quiz import get_quiz
 app = Flask(__name__)
 CORS(app)
 
@@ -171,7 +172,20 @@ def extract_syllabus():
         except:
             pass
 
+@app.route('/student/quiz', methods=['POST'])
+def create_quiz():
+    # session_id = request.json.get('session_id')
+    session_id = 1
+    if not session_id:
+        return jsonify({"error": "Missing session_id"}), 400
 
+    try:
+        quiz_data = get_quiz(session_id)
+        if "error" in quiz_data:
+            return jsonify(quiz_data), 404
+        return jsonify(quiz_data), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 
 @app.route('/syllabus/upload', methods=['POST'])
