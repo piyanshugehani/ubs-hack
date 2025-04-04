@@ -15,6 +15,7 @@ import StudentDashboard from "./pages/StudentDashboard";
 import StudentVideos from "./pages/StudentVideos";
 import SyllabusUpload from "./pages/upload/Upload";
 import Vol from "./pages/SchoolRecommendations/SchoolRecommendations";
+import PastSessions from "./pages/PastSessions";
 import Onboarding from "./pages/Onboarding";
 import Matching from "./pages/Matching";
 import QuizApp from "./pages/Quiz";
@@ -22,6 +23,7 @@ import { GoogleTranslate } from "./GoogleTranslate";
 import VolunteerDashboard from "./pages/SchoolDashboard";
 import SyllabusTable from "./pages/Syllabus";
 import VolunteerForm from "./pages/Onbaording/Volunteerboarding";
+import Resources from "./pages/Resources";
 import VolunteerReportPage from "./pages/ReportGeneration";
 function AppWrapper() {
   const location = useLocation();
@@ -60,10 +62,11 @@ function AppWrapper() {
             <Route path="/Onboarding" element={<Onboarding />} />
             <Route path="/" element={<Dashboard />} />
             <Route path="/sessions" element={<Sessions />} />
+            <Route path="/past-sessions" element={<PastSessions />} />
             <Route path="/sessions/:id" element={<SessionDetails />} />
             <Route path="/progress" element={<Progress />} />
             <Route path="/report" element={<VolunteerReportPage/>} />
-            {/* <Route path="/settings" element={<Settings />} /> */}
+            <Route path="/resources" element={<Resources />} />
             <Route path="/matching" element={<Matching />} />
             <Route path="/onboarding" element={<VolunteerForm/>} /> 
           </Routes>
