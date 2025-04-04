@@ -23,6 +23,7 @@ import { GoogleTranslate } from "./GoogleTranslate";
 import VolunteerDashboard from "./pages/SchoolDashboard";
 import SyllabusTable from "./pages/Syllabus";
 import VolunteerForm from "./pages/Onbaording/Volunteerboarding";
+import Resources from "./pages/Resources";
 function AppWrapper() {
   const location = useLocation();
   const isSchoolPath = location.pathname.startsWith("/school");
@@ -63,7 +64,7 @@ function AppWrapper() {
             <Route path="/past-sessions" element={<PastSessions />} />
             <Route path="/sessions/:id" element={<SessionDetails />} />
             <Route path="/progress" element={<Progress />} />
-            {/* <Route path="/settings" element={<Settings />} /> */}
+            <Route path="/resources" element={<Resources />} />
             <Route path="/matching" element={<Matching />} />
             <Route path="/onboarding" element={<VolunteerForm/>} /> 
           </Routes>

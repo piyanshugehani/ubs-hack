@@ -28,6 +28,12 @@ const Sidebar = () => {
           available: true
         },
         {
+          text: "Materials",
+          icon: "bx bx-chart",
+          link: "/resources",
+          available: true
+        },
+        {
           text: "LeaderBoards",
           icon: "bx bx-chart",
           link: "/progress",

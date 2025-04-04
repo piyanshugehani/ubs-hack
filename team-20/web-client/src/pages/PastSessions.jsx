@@ -137,46 +137,55 @@ const PastSessions = () => {
   const closeVideoModal = () => {
     setIsVideoModalOpen(false);
   };
-
-  const generateNotes = async () => {
+const generateNotes = async () => {
     console.log("Generating notes...");
     
     setLoading(true);
     setNotes(""); // Clear previous notes
 
-    // Specify the local video path (from public folder or server)
-    const videoPath = "/videos/sample_video.mp4"; // Adjust this path based on where the file is stored
-
     try {
-        // Fetch the video file from local storage
-        const response = await fetch(videoPath);
-        if (!response.ok) {
-            throw new Error("Failed to fetch video file");
+        if (notesOption === 'transcript') {
+            // Dummy transcript notes generation
+            await new Promise(resolve => setTimeout(resolve, 2000)); // Simulate API call
+            const dummyTranscriptNotes = `
+Session Transcript Notes:
+
+00:00 - Introduction to the topic
+- Welcome and overview of today's session
+- Brief recap of previous concepts
+
+05:00 - Main Concept Discussion
+- Detailed explanation of key principles
+- Examples and illustrations
+- Student questions and clarifications
+
+15:00 - Interactive Exercise
+- Group discussion
+- Problem-solving activities
+- Real-world applications
+
+30:00 - Summary and Conclusion
+- Key takeaways
+- Assignment instructions
+- Preview of next session
+
+Additional Notes:
+- High student engagement during interactive segments
+- Several clarifying questions about core concepts
+- Successful completion of group exercises
+`;
+            setNotes(dummyTranscriptNotes);
+        } else {
+            // For screenshots option, trigger PDF download
+            const pdfUrl = '/sample-notes.pdf'; // Replace with your actual PDF path
+            const link = document.createElement('a');
+            link.href = pdfUrl;
+            link.download = 'session-notes.pdf';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            setNotes("PDF notes have been downloaded to your device.");
         }
-
-        // Convert to a Blob and create a File object
-        const videoBlob = await response.blob();
-        const videoFile = new File([videoBlob], "File.mp4", { type: "video/mp4" });
-
-        // Prepare form data
-        const formData = new FormData();
-        formData.append("file", videoFile);
-
-        console.log("Sending file:", videoFile);
-
-        // Send to Flask API
-        const apiResponse = await fetch("http://localhost:5001/generate_notes", {
-            method: "POST",
-            body: formData,
-        });
-        console.log("API Response:", apiResponse);
-
-        // if (!apiResponse.ok) {
-        //     throw new Error("Failed to generate notes");
-        // }
-
-        const data = await apiResponse.json();
-        setNotes(data.notes);
     } catch (error) {
         console.error("Error generating notes:", error);
         setNotes(`Error: ${error.message}`);
@@ -198,11 +207,11 @@ const PastSessions = () => {
           {pastSessions.map((session) => (
             <div key={session.id} className="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-100 transition-all duration-300 hover:shadow-md group">
               <div className="relative">
-                <img 
+                {/* <img 
                   src={session.thumbnail} 
                   alt={session.title} 
                   className="w-full h-48 object-cover transition-transform duration-500 group-hover:scale-105" 
-                />
+                /> */}
                 <div className="absolute inset-0 bg-black bg-opacity-20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                   <button 
                     onClick={(e) => openVideoModal(session, e)}
@@ -248,7 +257,7 @@ const PastSessions = () => {
                   </a>
                   <button 
                     onClick={() => openModal(session)}
-                    className="bg-black hover:bg-gray-800 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-300 flex items-center"
+                    className="bg-primary hover:bg-primary text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-300 flex items-center"
                   >
                     Prepare Notes
                     <ChevronRight className="w-4 h-4 ml-1" />
