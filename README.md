@@ -1,4 +1,5 @@
 # Gyan Sarthi
+![image](https://github.com/user-attachments/assets/68037fcb-8cf3-48d2-90fa-5ffd0feb5b69)
 
 ## Overview
 
