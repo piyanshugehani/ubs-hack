@@ -28,7 +28,7 @@ const Sidebar = () => {
           available: true
         },
         {
-          text: "My Progress",
+          text: "LeaderBoards",
           icon: "bx bx-chart",
           link: "/progress",
           available: true
