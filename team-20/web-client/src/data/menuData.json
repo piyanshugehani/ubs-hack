@@ -15,9 +15,21 @@
                 "link": "/school/upload"
             },  {
                 "text": "Recommendations",
-                "icon": "bx bx-upload",
+                "icon": "bx bx-label",
                 "available": true,
                 "link": "/school/volunteers"
+            },
+            {
+                "text": "Syllabus",
+                "icon": "bx bx-book",
+                "available": true,
+                "link": "/school/syllabus"
+            },
+            {
+                "text": "Settnigs",
+                "icon": "bx bx-cog",
+                "available": true,
+                "link": "/school/settings"
             }
         ]
     }

@@ -130,5 +130,4 @@ const LineChart = () => {
     </div>
   );
 };
-
 export default LineChart;

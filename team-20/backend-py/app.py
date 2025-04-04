@@ -7,6 +7,8 @@ import json
 import os
 from utils.extraction import get_structured_syllabus_from_pdf,extract_text_from_pdf,upload_to_cloudinary
 import tempfile
+import dotenv
+dotenv.load_dotenv()
 from utils.quiz import get_quiz
 app = Flask(__name__)
 CORS(app)

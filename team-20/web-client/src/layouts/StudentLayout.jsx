@@ -1,7 +1,5 @@
-import React, { useEffect } from 'react';
+import  { useEffect } from 'react';
 import Sidebar2 from './Sidebar2';
-import Navbar from './Navbar';
-import Footer from './Footer';
 
 const StudentLayout = ({ children }) => {
   useEffect(() => {

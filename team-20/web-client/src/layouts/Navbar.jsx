@@ -1,4 +1,3 @@
-import getGreetingMessage from '../utils/greetingHandler';
 const Navbar = () => {
   return (
     <nav

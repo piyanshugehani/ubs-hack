@@ -1,27 +1,38 @@
-import React, { useEffect, useState } from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
 import menuData from '../data/menuData.json'
+import { DotLottieReact } from '@lottiefiles/dotlottie-react';
+import React from 'react';
 
 const StudentSidebar = () => {
-
-
     return (
         <aside id="layout-menu" className="layout-menu menu-vertical menu bg-menu-theme">
             <div className="app-brand demo">
                 <Link aria-label='Navigate to sneat homepage' to="/" className="app-brand-link">
                     <span className="app-brand-logo demo">
-                        <img src="/assets/img/sneat.svg" alt="sneat-logo" aria-label='Sneat logo image' />
+                        {/* Increased size of the image with width and height attributes */}
+                        <img 
+                            src="/assets/img/sneat.svg" 
+                            alt="sneat-logo" 
+                            aria-label='Sneat logo image'
+                            style={{ width: '40px', height: 'auto' }} // Increased size here
+                        />
                     </span>
                     <span className="app-brand-text demo menu-text fw-bold ms-2">Sneat</span>
                 </Link>
-
                 <a href="#" className="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none">
                     <i className="bx bx-chevron-left bx-sm align-middle"></i>
                 </a>
             </div>
-
+            <Link aria-label='Navigate to volunteer dashboard homepage' to="/" >
+                {/* Increased size of the lottie animation by adding style with width property */}
+                <DotLottieReact
+                    src="https://lottie.host/e9a0b7ea-5116-4cc4-bd5a-de215771b7ff/QmGZye8k25.lottie"
+                    loop
+                    autoplay
+                    style={{ width: '100%', maxWidth: '250px', margin: '0 auto' }} // Increased size here
+                />
+            </Link>
             <div className="menu-inner-shadow"></div>
-
             <ul className="menu-inner py-1">
                 {menuData.map((section) => (
                     <React.Fragment key={section.header}>
