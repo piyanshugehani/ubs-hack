@@ -4,6 +4,7 @@
 ![image](https://github.com/user-attachments/assets/7591725b-fdc7-406e-8b74-3bb9835ef793)
 ![image](https://github.com/user-attachments/assets/cda5ca1f-126a-4d0c-8b63-0703959b619d)
 ![image](https://github.com/user-attachments/assets/8bde34e3-cb75-4145-a665-b8e246eefe66)
+![image](https://github.com/user-attachments/assets/a435e1e4-1dbf-493e-9408-548329109118)
 ## Overview
 
 This education platform is a comprehensive solution designed to bridge the gap between volunteers, students, and schools through technology-enabled learning experiences. The platform integrates live teaching capabilities, automated content generation, and data-driven insights to create an effective educational ecosystem.
