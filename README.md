@@ -1,6 +1,9 @@
 # Gyan Sarthi
 ![image](https://github.com/user-attachments/assets/68037fcb-8cf3-48d2-90fa-5ffd0feb5b69)
-
+![image](https://github.com/user-attachments/assets/39d41715-3a1c-421a-8908-d0e55cbebb57)
+![image](https://github.com/user-attachments/assets/7591725b-fdc7-406e-8b74-3bb9835ef793)
+![image](https://github.com/user-attachments/assets/cda5ca1f-126a-4d0c-8b63-0703959b619d)
+![image](https://github.com/user-attachments/assets/8bde34e3-cb75-4145-a665-b8e246eefe66)
 ## Overview
 
 This education platform is a comprehensive solution designed to bridge the gap between volunteers, students, and schools through technology-enabled learning experiences. The platform integrates live teaching capabilities, automated content generation, and data-driven insights to create an effective educational ecosystem.
