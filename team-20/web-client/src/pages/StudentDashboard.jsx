@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+import  { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import StudentProgress from "./StudentProgress";
 
 function StudentDashboard() {
+  const navigate = useNavigate();
   const [selectedSession, setSelectedSession] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [modalType, setModalType] = useState("");
@@ -81,7 +83,7 @@ function StudentDashboard() {
             <div className="col-sm-7 ">
               <div className="card-body mt-4">
                 <h5 className="card-title text-primary">
-                  Great Job, [Student Name]! 🎉
+                  Great Job, Anant! 🎉
                 </h5>
                 <p className="mb-4">
                   You have completed <span className="fw-medium">72%</span> of

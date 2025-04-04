@@ -54,7 +54,7 @@ function Video() {
 
   return (
     <div
-      className="myCallContainer"
+      className="myCallContainer fixed inset-0 z-[9999] flex items-center justify-center"
       ref={myMeeting}
       style={{ 
         width: '100%', 

@@ -2,7 +2,9 @@ import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 
-const VolunteerSchema = new mongoose.Schema({
+const { Schema } = mongoose;
+
+const VolunteerSchema = new Schema({
   name: {
     type: String,
     required: [true, 'Please add a name']
@@ -42,6 +44,34 @@ const VolunteerSchema = new mongoose.Schema({
     type: [String],
     default: []
   },
+  isAvailable: {
+    type: Boolean,
+    default: true
+  },
+  bookedSchedule: {
+    type: [{
+      date: {
+        type: Date,
+        required: true
+      },
+      time: {
+        start: {
+          type: String,
+          required: true
+        },
+        end: {
+          type: String,
+          required: true
+        }
+      },
+      chapter_id: {
+        type: Schema.Types.ObjectId,
+        ref: 'Chapter',
+        required: true
+      }
+    }],
+    default: []  // Initialize as empty array
+  },
   createdAt: {
     type: Date,
     default: Date.now
@@ -74,6 +104,31 @@ VolunteerSchema.methods.getSignedJwtToken = function() {
 // ** Match User Entered Password with Hashed Password **
 VolunteerSchema.methods.matchPassword = async function (enteredPassword) {
   return await bcrypt.compare(enteredPassword, this.password);
+};
+
+// Method to get booked slots with chapter details
+VolunteerSchema.methods.getBookedSlots = async function() {
+  return await mongoose.model('Slot').find({ 
+    volunteer_id: this._id,
+    assignedOrNot: 'assigned'
+  })
+  .populate({
+    path: 'chapter_id',
+    select: 'title description numberOfHours session_daterange'
+  });
+};
+
+// Method to add a new booking
+VolunteerSchema.methods.addBooking = async function(date, startTime, endTime, chapterId) {
+  this.bookedSchedule.push({
+    date: new Date(date),
+    time: {
+      start: startTime,
+      end: endTime
+    },
+    chapter_id: chapterId
+  });
+  return await this.save();
 };
 
 export default mongoose.model('Volunteer', VolunteerSchema);

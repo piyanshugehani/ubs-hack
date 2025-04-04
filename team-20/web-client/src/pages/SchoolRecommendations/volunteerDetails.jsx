@@ -81,7 +81,7 @@ export function VolunteerDetails({ volunteer }) {
 
       {/* Content */}
       <div className="p-6">
-        {activeTab === "profile" ? (
+        
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {/* Left Column - Volunteer Info */}
             <div>
@@ -275,7 +275,7 @@ export function VolunteerDetails({ volunteer }) {
                   </div>
                   <div className="mt-4">
                     <span className="text-sm text-gray-600">Unavailable Dates:</span>
-                    <div className="mt-2 flex flex-wrap gap-2">
+                    {/* <div className="mt-2 flex flex-wrap gap-2">
                       {volunteer.dateArray.map((date, index) => (
                         <span
                           key={index}
@@ -284,100 +284,13 @@ export function VolunteerDetails({ volunteer }) {
                           {date}
                         </span>
                       ))}
-                    </div>
+                    </div> */}
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        ) : (
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            {/* Left Column - Calendar */}
-            <div>
-              <h2 className="text-xl font-semibold mb-4 text-gray-800">Book a Session</h2>
-
-              <Calendar busyDates={volunteer.dateArray} onSelectDate={handleDateSelect} selectedDate={selectedDate} />
-            </div>
-
-            {/* Right Column - Booking */}
-            <div>
-              {selectedDate ? (
-                <div className="mt-6">
-                  <h3 className="text-lg font-medium text-gray-800 mb-4">Available Times for {selectedDate}</h3>
-                  <div className="grid grid-cols-4 gap-2">
-                    {availableTimes.map((time) => (
-                      <button
-                        key={time}
-                        onClick={() => handleTimeSelect(time)}
-                        className={`py-2 px-3 text-sm rounded-md ${
-                          selectedTime === time
-                            ? "bg-blue-600 text-white"
-                            : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-                        }`}
-                      >
-                        {time}
-                      </button>
-                    ))}
-                  </div>
-
-                  {selectedTime && (
-                    <div className="mt-6">
-                      <div className="bg-gray-50 p-4 rounded-lg mb-4">
-                        <h4 className="font-medium text-gray-800 mb-2">Booking Summary</h4>
-                        <div className="space-y-2 text-sm">
-                          <div className="flex justify-between">
-                            <span className="text-gray-600">Volunteer:</span>
-                            <span className="font-medium">{volunteer.name}</span>
-                          </div>
-                          <div className="flex justify-between">
-                            <span className="text-gray-600">Date:</span>
-                            <span className="font-medium">{selectedDate}</span>
-                          </div>
-                          <div className="flex justify-between">
-                            <span className="text-gray-600">Time:</span>
-                            <span className="font-medium">{selectedTime}</span>
-                          </div>
-                          <div className="flex justify-between">
-                            <span className="text-gray-600">Duration:</span>
-                            <span className="font-medium">1 hour</span>
-                          </div>
-                        </div>
-                      </div>
-
-                      <button
-                        onClick={handleBooking}
-                        className="w-full py-2 px-4 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-md transition-colors"
-                      >
-                        Book Session on {selectedDate} at {selectedTime}
-                      </button>
-
-                      {bookingSuccess && (
-                        <div className="mt-4 p-3 bg-green-50 text-green-800 rounded-md">
-                          <p className="text-sm font-medium">
-                            Success! Your session with {volunteer.name} has been booked.
-                          </p>
-                        </div>
-                      )}
-                    </div>
-                  )}
-                </div>
-              ) : (
-                <div className="flex flex-col items-center justify-center h-full p-6 text-center">
-                  <svg className="w-16 h-16 text-gray-400 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={1.5}
-                      d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-                    />
-                  </svg>
-                  <h3 className="text-lg font-medium text-gray-800 mb-1">Select a Date</h3>
-                  <p className="text-gray-500">Please select an available date from the calendar to continue.</p>
-                </div>
-              )}
-            </div>
-          </div>
-        )}
+        
       </div>
     </div>
   )

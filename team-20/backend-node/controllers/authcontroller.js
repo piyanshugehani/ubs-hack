@@ -83,7 +83,7 @@ export const loginSchool = async (req, res) => {
 // @access  Public
 export const registerVolunteer = async (req, res) => {
   try {
-    const { name, email, password, phone, skills, languages, locations, availability } = req.body;
+    const { name, email, password, phone, skills, languages, locations, availability, isAvailable } = req.body;
 
     // Check if volunteer already exists
     const existingVolunteer = await Volunteer.findOne({ email });

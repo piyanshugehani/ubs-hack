@@ -4,59 +4,17 @@ import React from "react"
 
 import { useState, useRef } from "react"
 import { Upload, FileText, Check, X, ChevronRight, ChevronDown, BookOpen, Filter, Download } from "lucide-react"
-
+import axios from "axios"
 export default function SyllabusUpload() {
   const [file, setFile] = useState(null)
   const [isDragging, setIsDragging] = useState(false)
   const [isExtracted, setIsExtracted] = useState(false)
   const [selectedClass, setSelectedClass] = useState(null)
+  const [rawSyllabusData, setRawSyllabusData] = useState(null)
   const fileInputRef = useRef(null)
 
   const [syllabusData, setSyllabusData] = useState([
-    {
-      class: 1,
-      chapter: "Introduction to Computer Science",
-      subject: "Programming",
-      topics: [
-        { name: "History of Computing", assigned: false },
-        { name: "Basic Computer Architecture", assigned: true },
-      ],
-      expanded: true,
-    },
-    {
-      class: 1,
-      chapter: "Data Structures and Algorithms",
-      subject: "Programming",
-      topics: [
-        { name: "Arrays and Linked Lists", assigned: true },
-        { name: "Sorting Algorithms", assigned: false },
-        { name: "Tree Structures", assigned: true },
-      ],
-      expanded: true,
-    },
-    {
-      class: 2,
-      chapter: "Object-Oriented Programming",
-      subject: "Advanced Programming",
-      topics: [
-        { name: "Classes and Objects", assigned: false },
-        { name: "Inheritance and Polymorphism", assigned: true },
-        { name: "Design Patterns", assigned: false },
-      ],
-      expanded: true,
-    },
-    {
-      class: 3,
-      chapter: "Database Systems",
-      subject: "Information Systems",
-      topics: [
-        { name: "Relational Database Design", assigned: true },
-        { name: "SQL Fundamentals", assigned: true },
-        { name: "Database Normalization", assigned: false },
-        { name: "Transaction Processing", assigned: false },
-      ],
-      expanded: true,
-    },
+    
   ])
 
   const handleDragOver = (e) => {
@@ -91,12 +49,69 @@ export default function SyllabusUpload() {
   const handleFileUploadClick = () => {
     fileInputRef.current?.click()
   }
+  const handleUpload = async() => {
+    try {
+      const uploadResponse = await axios.post("http://localhost:5000/syllabus/upload", rawSyllabusData, {
+        headers: {
+          'Content-Type': 'application/json',
+          // Add authorization header if required
+          // 'Authorization': `Bearer ${yourAuthToken}`
+        }
+      });
 
-  const handleExtract = () => {
+      console.log("Syllabus uploaded to backend:", uploadResponse.data);
+    } catch (uploadError) {
+      console.error("Error uploading to backend:", uploadError);
+    }
+
+  }
+  const handleExtract = async () => {
     if (file) {
-      // In a real app, you would parse the syllabus file here
-      // and update the syllabusData state
-      setIsExtracted(true)
+      try {
+        console.log("Extracting syllabus...");
+  
+        const formData = new FormData();
+        formData.append('file', file);
+  
+        const response = await axios.post("http://127.0.0.1:5000/extract_syllabus", formData, {
+          headers: { "Content-Type": "multipart/form-data" },
+        });
+  
+        // Process the API response data
+        const apiData = response.data;
+        const processedData = [];
+        
+        if (apiData && apiData.subjects) {
+        apiData.id=1;
+        setRawSyllabusData(apiData) // Store the raw data for further use if needed
+
+
+
+          apiData.subjects.forEach((subject, index) => {
+            processedData.push({
+              chapter: subject.title,
+              subject: apiData.title || "Engineering Course",
+              class: index + 1, // Using module index as class number
+              topics: subject.chapters.map(chapter => ({
+                name: chapter.title,
+                assigned: chapter.assignedOrNot === "assigned",
+                description: chapter.description,
+                hours: chapter.numberOfHours,
+                weightage: chapter.weightage
+              })),
+              expanded: false
+            });
+          });
+        }
+        
+        setIsExtracted(true);
+        setSyllabusData(processedData);
+
+        
+        
+      } catch (err) {
+        console.error("Error extracting syllabus:", err);
+      }
     }
   }
 
@@ -110,8 +125,11 @@ export default function SyllabusUpload() {
 
   const uniqueClasses = Array.from(new Set(syllabusData.map((item) => item.class))).sort()
 
+
+
+
   return (
-    <div className="min-h-screen bg-gray-50 p-4 md:p-6">
+    <div className="min-h-screen p-4 md:p-6">
       <div className="max-w-7xl mx-auto">
         <h1 className="text-2xl font-bold text-gray-800 mb-6 flex items-center">
           <BookOpen className="mr-2 text-indigo-600" />
@@ -348,6 +366,19 @@ export default function SyllabusUpload() {
             <button
               className="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-md transition-colors"
               onClick={handleFileUploadClick}
+            >
+              Upload Syllabus
+            </button>
+          </div>
+        )}
+        {rawSyllabusData && (
+          <div className="bg-white rounded-lg shadow-md p-12 flex flex-col items-center justify-center">
+            <FileText className="w-20 h-20 text-indigo-200 mb-6" />
+            <h3 className="text-xl font-medium text-gray-700 mb-2">No Syllabus Uploaded</h3>
+            
+            <button
+              className="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-md transition-colors"
+              onClick={handleUpload}
             >
               Upload Syllabus
             </button>

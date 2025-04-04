@@ -28,7 +28,7 @@ const Sidebar = () => {
           available: true
         },
         {
-          text: "My Progress",
+          text: "LeaderBoards",
           icon: "bx bx-chart",
           link: "/progress",
           available: true
@@ -37,6 +37,12 @@ const Sidebar = () => {
           text: "Settings",
           icon: "bx bx-cog",
           link: "/settings",
+          available: true
+        },
+        {
+          text: "Find Sessions",
+          icon: "bx bx-search",
+          link: "/matching",
           available: true
         }
       ]

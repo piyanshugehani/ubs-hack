@@ -1,3 +1,6 @@
+/* eslint-disable no-undef */
+/* eslint-disable react/prop-types */
+/* eslint-disable no-unused-vars */
 import React, { useEffect } from 'react';
 import Sidebar from './SchoolSidebar';
 import Navbar from './Navbar';
@@ -13,7 +16,6 @@ const SchoolLayout = ({ children }) => {
       <div className="layout-container">
         <Sidebar />
         <div className="layout-page ">
-          <Navbar />
           <div className="content-wrapper">
             <div className="container-xxl flex-grow-1 container-p-y">
             {children}
