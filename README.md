@@ -149,17 +149,6 @@ education-platform/
 └── docs/                     # Documentation
 ```
 
-## Where to Upload This README
-
-You can upload this README.md to:
-
-1. **GitHub Repository**: Place it in the root directory of your project repository
-2. **Documentation Site**: Include it as the main page of a documentation site (GitBook, ReadTheDocs, etc.)
-3. **Project Management Tool**: Add it as a reference document in Notion, Confluence, or similar tools
-4. **Development Environment**: Keep it accessible in your development workspace for quick reference
-
-## Resource Links
-
 ### Project Drive
 https://drive.google.com/drive/folders/12zc2r-qs5946GXSx4xE2uGaZbSzCHA9b?usp=drive_link
 
@@ -185,5 +174,3 @@ Guidelines for contributing to the project's development:
 4. Follow the code style and testing requirements
 
 ---
-
-*This README is based on the system architecture diagram provided and may need adjustments as the actual implementation progresses.*
