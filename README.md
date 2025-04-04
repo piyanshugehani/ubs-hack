@@ -1,4 +1,4 @@
-# Education Platform
+# Gyan Sarthi
 
 ## Overview
 
@@ -161,7 +161,7 @@ You can upload this README.md to:
 ## Resource Links
 
 ### Project Drive
-[Project Drive Link]: # https://drive.google.com/drive/folders/12zc2r-qs5946GXSx4xE2uGaZbSzCHA9b?usp=drive_link
+https://drive.google.com/drive/folders/12zc2r-qs5946GXSx4xE2uGaZbSzCHA9b?usp=drive_link
 
 ## Future Enhancements
 
