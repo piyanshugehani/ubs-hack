@@ -31,7 +31,7 @@ export function VolunteerCard({ volunteer, isSelected, onClick }) {
           </div>
   
           <div className="flex-1 min-w-0">
-            <h3 className="font-medium text-sm truncate">{volunteer.name}</h3>
+            <h3 className="font-medium text-sm truncate text-gray">{volunteer.name}</h3>
             <div className="flex items-center text-xs text-gray-500 gap-1 mt-0.5">
               <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path

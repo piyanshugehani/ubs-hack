@@ -56,7 +56,7 @@ const Sidebar = () => {
           <span className="app-brand-logo demo">
             <img src="/assets/img/sneat.svg" alt="volunteer-logo" aria-label='Volunteer dashboard logo' />
           </span>
-          <span className="app-brand-text demo fw-bold ms-2">Welcome</span>
+          <span className="app-brand-text demo fw-bold ms-2">gyansarthi.ai</span>
         </Link>
 
         <a href="#" className="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none">

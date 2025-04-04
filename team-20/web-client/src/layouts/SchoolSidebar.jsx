@@ -17,7 +17,7 @@ const StudentSidebar = () => {
                             style={{ width: '40px', height: 'auto' }} // Increased size here
                         />
                     </span>
-                    <span className="app-brand-text demo menu-text fw-bold ms-2">Sneat</span>
+                    <span className="app-brand-text demo menu-text fw-bold ms-2">gyansarthi.ai</span>
                 </Link>
                 <a href="#" className="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none">
                     <i className="bx bx-chevron-left bx-sm align-middle"></i>

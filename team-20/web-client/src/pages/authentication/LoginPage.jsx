@@ -26,7 +26,7 @@ export const LoginPage = () => {
     };
     return (
         <AuthWrapper>
-            <h4 className="mb-2">Welcome to Sneat! 👋</h4>
+            <h4 className="mb-2"> Welcome to gyansarthi 👋</h4>
             <p className="mb-4">Please sign-in to your account and start the adventure</p>
 
             <form id="formAuthentication" className="mb-3" onSubmit={handleSubmit}>

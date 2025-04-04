@@ -39,7 +39,7 @@ export function VolunteerDetails({ volunteer }) {
             />
           </div>
           <div className="ml-6">
-            <h1 className="text-2xl font-bold">{volunteer.name}</h1>
+            <h1 className="text-2xl font-bold text-white">{volunteer.name}</h1>
             <div className="flex items-center mt-1">
               <span className="ml-2 capitalize">
                 {volunteer.available === "yes"

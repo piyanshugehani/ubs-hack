@@ -7,6 +7,7 @@ import json
 import os
 from utils.extraction import get_structured_syllabus_from_pdf,extract_text_from_pdf,upload_to_cloudinary
 import tempfile
+from utils.report_generation import generate_report_md
 import dotenv
 dotenv.load_dotenv()
 from utils.quiz import get_quiz
@@ -264,6 +265,19 @@ def upload_syllabus():
 
 
 
+@app.route('/generate_report', methods=['POST'])
+def generate_report():
+    volunteer_id = int(request.json.get('volunteer_id'))
+    if not volunteer_id:
+        return jsonify({"error": "Missing volunteer_id"}), 400
+
+    try:
+        report = generate_report_md(volunteer_id)
+        if "error" in report:
+            return jsonify(report), 404
+        return jsonify({"report": report}), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 
 if __name__ == "__main__":
