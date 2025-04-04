@@ -19,6 +19,7 @@ import StudentDashboard from "./pages/StudentDashboard";
 import SyllabusUpload from "./pages/upload/Upload";
 import SchoolDashboard from "./pages/SchoolDashboard";
 import Vol from "./pages/SchoolRecommendations/SchoolRecommendations";
+import PastSessions from "./pages/PastSessions";
 
 function AppWrapper() {
   const location = useLocation();
@@ -55,6 +56,7 @@ function AppWrapper() {
           <Routes>
             <Route path="/" element={<Dashboard />} />
             <Route path="/sessions" element={<Sessions />} />
+            <Route path="/past-sessions" element={<PastSessions />} />
             <Route path="/sessions/:id" element={<SessionDetails />} />
             <Route path="/progress" element={<Progress />} />
             <Route path="/settings" element={<Settings />} />

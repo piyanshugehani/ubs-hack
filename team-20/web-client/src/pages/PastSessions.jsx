@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Calendar, Clock, FileText, Image, PlayCircle, BarChart2, Heart, Brain, ChevronRight, X } from 'lucide-react';
-import VideoUrl from '../../public/assets/local.mp4';
+import VideoUrl from '../../public/assets/File.mp4';
 
 const PastSessions = () => {
   const [selectedSession, setSelectedSession] = useState(null);
@@ -140,6 +140,7 @@ const PastSessions = () => {
 
   const generateNotes = async () => {
     console.log("Generating notes...");
+    
     setLoading(true);
     setNotes(""); // Clear previous notes
 
@@ -155,7 +156,7 @@ const PastSessions = () => {
 
         // Convert to a Blob and create a File object
         const videoBlob = await response.blob();
-        const videoFile = new File([videoBlob], "session_video.mp4", { type: "video/mp4" });
+        const videoFile = new File([videoBlob], "File.mp4", { type: "video/mp4" });
 
         // Prepare form data
         const formData = new FormData();
@@ -164,14 +165,15 @@ const PastSessions = () => {
         console.log("Sending file:", videoFile);
 
         // Send to Flask API
-        const apiResponse = await fetch("/transcripts", {
+        const apiResponse = await fetch("http://localhost:5001/generate_notes", {
             method: "POST",
             body: formData,
         });
+        console.log("API Response:", apiResponse);
 
-        if (!apiResponse.ok) {
-            throw new Error("Failed to generate notes");
-        }
+        // if (!apiResponse.ok) {
+        //     throw new Error("Failed to generate notes");
+        // }
 
         const data = await apiResponse.json();
         setNotes(data.notes);
