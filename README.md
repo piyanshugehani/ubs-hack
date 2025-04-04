@@ -161,9 +161,7 @@ You can upload this README.md to:
 ## Resource Links
 
 ### Project Drive
-[Project Drive Link]: # "Add your Google Drive or other cloud storage link here"
-
-Add your project drive link above to provide access to supplementary materials, documentation, and design files related to the education platform.
+[Project Drive Link]: # "(https://drive.google.com/drive/folders/12zc2r-qs5946GXSx4xE2uGaZbSzCHA9b?usp=drive_link)"
 
 ## Future Enhancements
 
