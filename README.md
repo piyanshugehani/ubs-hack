@@ -1,9 +1,10 @@
-# Gyan Sarthi
+# gyaansarthi.ai
 
-## 📹 Project Demo
-[![Watch the demo](https://github.com/user-attachments/assets/21ee3c14-668e-4658-a6b0-b4e98fb1cba7)](https://drive.google.com/file/d/1zSjRmxUOsjRmrgX7hSLXSYYar-K6JDLS/view?usp=sharing)
+## 📹 Project Demos
+[![Watch the demo](https://github.com/user-attachments/assets/21ee3c14-668e-4658-a6b0-b4e98fb1cba7)](https://drive.google.com/file/d/16bk5RJ-xue-KyoIn5AE2fDg6YSkWtSfG/view?usp=sharing)
+[![Watch the demo](https://github.com/user-attachments/assets/acbbba4d-92d3-4b4a-b0e8-e9d70106066a)](https://drive.google.com/file/d/1yyT4aVrb1G6fwr2Ts-EghRmnpO1R5ucY/view?usp=sharing)
 
----
+
 
 ## Overview
 
