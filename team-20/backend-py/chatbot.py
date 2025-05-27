@@ -15,7 +15,7 @@ load_dotenv()
 app = Flask(__name__)
 
 # Set up Gemini API (load from env or fallback to provided key)
-genai.configure(api_key=os.getenv('GEMINI_API_KEY', 'AIzaSyCKbDmj-zI4USoHyuewqugW4h0y71J8epY'))
+genai.configure(api_key=os.getenv('GEMINI_API_KEY'))
 
 # Connect to MongoDB
 client = pymongo.MongoClient(os.getenv('MONGODB_URI', "mongodb://localhost:27017"))
