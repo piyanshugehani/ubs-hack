@@ -6,6 +6,7 @@ from groq import Groq
 from pymongo import MongoClient
 from datetime import datetime
 import google.generativeai as genai
+from dotenv import load_dotenv
 
 app = Flask(__name__)
 
@@ -19,8 +20,10 @@ app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 # ----------------------------
 # 2. API keys configuration
 # ----------------------------
-GROQ_API_KEY = "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"
-GEMINI_API_KEY = "AIzaSyADzLM7nBo0LCGqTs7qjqOVop4wtSMwOT8"  # Replace with your actual Gemini API key
+load_dotenv()
+
+GROQ_API_KEY = os.getenv("GROQ_API_KEY")
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 
 # Initialize clients
 groq_client = Groq(api_key=GROQ_API_KEY)
