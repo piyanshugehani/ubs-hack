@@ -12,6 +12,8 @@ import cloudinary
 import cloudinary.uploader
 import cloudinary.api
 from datetime import datetime
+from dotenv import load_dotenv
+load_dotenv()
 
 # Initialize Flask app
 app = Flask(__name__)
@@ -20,7 +22,8 @@ CORS(app)
 reader = easyocr.Reader(['en'])
 
 # API keys configuration
-GEMINI_API_KEY = "AIzaSyCKbDmj-zI4USoHyuewqugW4h0y71J8epY"
+
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 genai.configure(api_key=GEMINI_API_KEY)
 
 # Configure Cloudinary
