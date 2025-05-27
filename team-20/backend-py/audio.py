@@ -24,6 +24,7 @@ load_dotenv()
 
 GROQ_API_KEY = os.getenv("GROQ_API_KEY")
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
+MONGO_URI = os.getenv("MONGODB_URI")
 
 # Initialize clients
 groq_client = Groq(api_key=GROQ_API_KEY)
@@ -39,7 +40,6 @@ gemini_model = genai.GenerativeModel('gemini-2.0-flash')
 # ----------------------------
 # 3. MongoDB Connection
 # ----------------------------
-MONGODB_URI = "mongodb+srv://piyanshugehani22:MTxyII7ZYJhvlyfm@ondcdb.jqfg4.mongodb.net/?retryWrites=true&w=majority&appName=ondcDB"
 mongo_client = MongoClient(MONGODB_URI)
 db = mongo_client["test"]
 transcripts_collection = db["transcripts"]
